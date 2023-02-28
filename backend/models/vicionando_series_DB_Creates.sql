@@ -8,10 +8,12 @@ CREATE TABLE IF NOT EXISTS photos (
   `id` INT NOT NULL AUTO_INCREMENT,
   `filename` VARCHAR(100) NOT NULL,
   `description` VARCHAR(100) NULL,
-  `filesize` VARCHAR(45) NULL,
+  `filesize` INT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
+
+-- ALTER TABLE photos MODIFY COLUMN `filesize` INT;
 
 -- -----------------------------------------------------
 -- Table `users`
@@ -40,7 +42,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `vicionados`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS ruscicacode_vicionando_series_2.vicionados (
+CREATE TABLE IF NOT EXISTS vicionados (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(100) NULL,
