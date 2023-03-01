@@ -2,7 +2,7 @@ CREATE SCHEMA IF NOT EXISTS `ruscicacode_vicionando_series_2` DEFAULT CHARACTER 
 use ruscicacode_vicionando_series_2; 
 
 -- -----------------------------------------------------
--- Table `mydb`.`photos`
+-- Table `photos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS photos (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -13,7 +13,17 @@ CREATE TABLE IF NOT EXISTS photos (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
 
--- ALTER TABLE photos MODIFY COLUMN `filesize` INT;
+-- -----------------------------------------------------
+-- Table `palettes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS palette (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NULL,
+  `description` VARCHAR(100) NULL,  
+  `filename` VARCHAR(100) NOT NULL,   
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `users`

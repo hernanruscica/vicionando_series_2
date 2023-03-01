@@ -1,67 +1,36 @@
-CREATE SCHEMA IF NOT EXISTS `ruscicacode_vicionando_series_2` DEFAULT CHARACTER SET utf8 ;
+
 use ruscicacode_vicionando_series_2; 
 
--- -----------------------------------------------------
--- Table `mydb`.`photos`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS photos (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `filename` VARCHAR(100) NOT NULL,
-  `description` VARCHAR(100) NULL,
-  `filesize` INT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
-ENGINE = InnoDB;
+-- INSERTS FROM USERS - rol 0 = editor rol 1 = admin
+INSERT INTO users (`name`, `email`, `password`, `rol`, `photos_id`, `real_name`,  `birthday`, `palette`) VALUES 
+    ('juanca1234', 'juancarlosfurro@gmail.com', password('1234'), 0, 1, 'Juan Carlos Lopez', '2008-11-11', 0),
+    ('pepe', 'pepelocura@hotmail.com', password('6589'), 0, 1, 'Jose Carlos Luciani', '2018-10-01', 0),
+    ('elvio44', 'elviohermetica@gmail.com', password('7843'), 0, 1, 'Elvio Lento', '2000-01-02', 0);        
+    
+INSERT INTO users (`name`, `email`, `password`, `rol`, `photos_id`, `real_name`,  `birthday`, `palette`) VALUES 
+    ('usuarioBorrable', 'soy_borreable@gmail.com', password('2234'), 0, 1, 'Juan BO rrable', '2000-01-12', 0);
+    
+-- SELECTS FROM USERS
+SELECT * FROM users;
+SELECT * FROM users WHERE id = '1';
+SELECT * FROM users WHERE name = 'pepe';
+SELECT * FROM users WHERE email = 'pepelocura@hotmail.com';
 
--- ALTER TABLE photos MODIFY COLUMN `filesize` INT;
+-- UPDATES FROM USERS
+UPDATE users
+SET `name` = 'edited_name',
+	`email` = 'edited@email.com',
+    `password` = 'edited_password',
+    `rol` = 0,
+    `photos_id` = 2,
+    `real_name`= 'edited real name',  
+    `birthday` = '2008-11-11', 
+    `palette` = 0
+WHERE id = 1;
 
--- -----------------------------------------------------
--- Table `users`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS users (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
-  `rol` INT NOT NULL,
-  `real_name` VARCHAR(100) NULL,
-  `birthday` DATE NULL,
-  `palette` INT NULL,
-  `photos_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) ,
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
-  INDEX `fk_users_photos_idx` (`photos_id` ASC) ,
-  CONSTRAINT `fk_users_photos`
-    FOREIGN KEY (`photos_id`)
-    REFERENCES ruscicacode_vicionando_series_2.photos (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
--- -----------------------------------------------------
--- Table `vicionados`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS vicionados (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(100) NULL,
-  `date_added` DATE NOT NULL,
-  `episode_current` VARCHAR(45) NOT NULL,
-  `episodes_quantity` INT NOT NULL,
-  `seasons_quantity` INT NOT NULL,
-  `api_provider` VARCHAR(100) NULL,
-  `api_id` VARCHAR(255) NULL,
-  `video_provider_1` VARCHAR(255) NULL,
-  `video_provider_2` VARCHAR(255) NULL,
-  `video_provider_3` VARCHAR(255) NULL,
-  `users_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
-  INDEX `fk_vicionados_users1_idx` (`users_id` ASC) ,
-  CONSTRAINT `fk_vicionados_users1`
-    FOREIGN KEY (`users_id`)
-    REFERENCES ruscicacode_vicionando_series_2.users (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+UPDATE users SET `password` = 'edited_password' WHERE id = 1;
+
+UPDATE users SET `palette` = 1 WHERE id = 1;
+
+-- DELETEs FROM USERS
+DELETE FROM users WHERE id = '7';
