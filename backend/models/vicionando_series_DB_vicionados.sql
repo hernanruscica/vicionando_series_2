@@ -9,4 +9,10 @@ INSERT INTO vicionados (`name`, `description`, `date_added`, `episode_current`, 
     
 -- GET all the 'vicionados' from one user, with the id
 SELECT * FROM vicionados WHERE `users_id` = '2';
-SELECT * FROM vicionados WHERE (`name` LIKE 'spy' AND `users_id` = '2');
+
+-- Get all the 'vicionado' that matchs the search from one user
+SELECT * FROM vicionados WHERE (`name` LIKE '%spy%' AND `users_id` = '2');
+
+-- DELETEs from vicionados
+DELETE FROM vicionados WHERE id = '1';
+DROP table vicionados;
