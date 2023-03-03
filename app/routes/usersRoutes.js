@@ -1,11 +1,10 @@
 const express = require('express');
-//const usersController = require('../controllers/indexController');
+const usersController = require('../controllers/usersController');
 var router = express.Router();
 
 //Users Routes
-router.get('/', (req, res) => {
-    res.status(200).send('<p>Users directory </p>').json({name: 'hernan'});
-})
+router.get('/', usersController.getAllUsers);
+
 
 module.exports = router;
 
