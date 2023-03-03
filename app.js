@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
-//const path = require('path');
+const path = require('path');
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -16,7 +17,7 @@ const trackedShowsRouter = require('./app/routes/trackedShowsRouter');
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/tracked_shows', trackedShowsRouter);
+app.use('/api/tracked-shows', trackedShowsRouter);
 
 
 app.listen(1000, () => console.log(`App escuchando en http://localhost:1000`));
