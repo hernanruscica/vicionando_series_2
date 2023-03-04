@@ -2,7 +2,7 @@ const express = require('express');
 const usersController = require('../controllers/usersController');
 var router = express.Router();
 
-//Users Routes
+//users Routes
 router.get('/', usersController.getAllUsers);
 router.get('/:id', usersController.getUserById);
 router.get('/:field/:value', usersController.getUserByField);

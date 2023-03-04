@@ -15,6 +15,8 @@ const usersRouter = require('./app/routes/usersRoutes');
 const trackedShowsRouter = require('./app/routes/trackedShowsRouter');
 
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/tracked-shows', trackedShowsRouter);

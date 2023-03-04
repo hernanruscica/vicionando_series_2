@@ -7,6 +7,7 @@ module.exports = {
     getAllUsers: (req, res) => {
         // RESPONSE CODES TO USE 200 (OK) - 404 (NOT FOUND)
         usersModel.getAll(DB_connection, (err, results) => {
+            console.log('getAll');
             if (!err){
                 res.status(200).json({message: 'Results', results: results});        
             }else{
@@ -43,21 +44,20 @@ module.exports = {
             }   
         })
     },
-    insertUser: (req, res) => {
-        let data = req.form.body.name;
-        console.log(data);
-        /*
-        usersModel.insert(data, DB_connection, (err, results) => {
-            if (!err){
-                if (results.length > 0){
-                    res.status(200).json({message: 'OK', results: results});        
-                }else{
-                    res.status(404).json({message: 'Not Found', results: results});        
-                }                
+    insertUser: async (req, res) => {
+        let data = req.body;
+        //console.log(data);        
+         await usersModel.insert(data, DB_connection, (err, results) => {
+            //console.log(err);            
+            if (!err){                
+                    res.status(200).json({message: 'OK', results: results});    
             }else{
-                res.status(404).json({message: 'DB Error', results: results});
-            }   
-        })
-        */
+                if (err.code = 'ER_DUP_ENTRY'){
+                    res.status(409).json({message: 'User already exists', results: results});
+                }else {
+                    res.status(500).json({message: 'Error inserting user', results: results});
+                }
+            }               
+        })        
     }
 }
