@@ -46,18 +46,31 @@ module.exports = {
     },
     insertUser: async (req, res) => {
         let data = req.body;
-        //console.log(data);        
+        //console.log(data);   
+        /*
+        let data = {
+            "name" : "edited_name12",
+            "email" : "edited21@email.com",
+            "password" : "edited_password",
+            "roles_id" : 0,
+            "photos_id" : 2,
+            "real_name" : "edited real name",  
+            "birthday" : "2008-11-11", 
+            "palette_id" : 0
+        }
+        */
          await usersModel.insert(data, DB_connection, (err, results) => {
             //console.log(err);            
             if (!err){                
                     res.status(200).json({message: 'OK', results: results});    
             }else{
-                if (err.code = 'ER_DUP_ENTRY'){
+                if (err.code = 'ER_DUP_ENTRY'){                    
                     res.status(409).json({message: 'User already exists', results: results});
                 }else {
                     res.status(500).json({message: 'Error inserting user', results: results});
                 }
-            }               
+            }   
+            console.log(data, err.code);            
         })        
     }
 }

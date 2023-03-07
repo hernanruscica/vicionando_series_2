@@ -10,6 +10,6 @@ module.exports = {
     },
     insert: (data, conn, myFunction) => {
         conn.query(`INSERT INTO users (name, email, password, roles_id, photos_id, real_name, birthday, palettes_id) 
-        VALUES ('${data.name}', '${data.email}', '${data.password}', '${data.roles_id}', '${data.photos_id}', '${data.real_name}', '${data.birthday}', '${data.palettes_id}')`, myFunction)
+        VALUES ('${data.name}', '${data.email}', '${data.password}', ${data.roles_id}, ${data.photos_id}, '${data.real_name}', '${data.birthday}', ${data.palettes_id})`, myFunction)
     }
 }
