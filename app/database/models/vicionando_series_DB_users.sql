@@ -19,11 +19,11 @@ UPDATE users
 SET `name` = 'edited_name',
 	`email` = 'edited@email.com',
     `password` = 'edited_password',
-    `roles_id` = 0,
+    `roles_id` = 1,
     `photos_id` = 2,
     `real_name`= 'edited real name',  
     `birthday` = '2008-11-11', 
-    `palette_id` = 0
+    `palettes_id` = 1
 WHERE id = 1;
 
 UPDATE users SET `password` = 'edited_password' WHERE id = 1;
