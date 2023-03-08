@@ -58,23 +58,33 @@ module.exports = {
             }      
         })
     },
-    updateUser: async (req, res) => {
-        let data = req.body;
-        let id = req.params.id;
+    updateUser: async (req, res) => {                
+        const {id} = req.params;
+        let data = req.body;    
+        
         await usersModel.update(data, id, DB_connection, (err, results) => {
             if (!err){
-                res.status(200).json({message: 'OK', results: results});  
+                if (results.affectedRows > 0){
+                    res.status(200).json({message: 'OK', results: results});     
+                }else {
+                    res.status(409).json({message: "User doesn't exists", results: results});
+                }   
             }else{
                 res.status(500).json({message: 'Error updating user', results: err});
             }
         })
     },
     deleteUser: async (req, res) => {
-        let id = req.params.id;
+           
+        const { id  } = req.params;      
         await usersModel.delete(id, DB_connection, (err, results) => {
             if (!err){
-                res.status(200).json({message: 'OK', results: results});  
-            }else{
+                if (results.affectedRows > 0){
+                    res.status(200).json({message: 'OK', results: results});     
+                }else {
+                    res.status(409).json({message: "User doesn't exists", results: results});
+                }                 
+            }else{                
                 res.status(500).json({message: 'Error deleting user', results: err});
             }
         })
