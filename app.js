@@ -12,7 +12,7 @@ app.set('view engine', 'ejs');
 
 const indexRouter = require('./app/routes/indexRoutes');
 const usersRouter = require('./app/routes/usersRoutes');
-const trackedShowsRouter = require('./app/routes/trackedShowsRouter');
+const trackedShowsRouter = require('./app/routes/trackedShowsRoutes');
 
 
 app.use(bodyParser.json());
