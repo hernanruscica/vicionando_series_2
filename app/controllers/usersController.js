@@ -48,7 +48,7 @@ module.exports = {
         let data = req.body;        
          await usersModel.insert(data, DB_connection, (err, results) => {                    
             if (!err){                
-                    res.status(200).json({message: 'OK', results: results});    
+                    res.status(200).json({message: 'OK', results: data});    
             }else{                
                 if (err.code == 'ER_DUP_ENTRY'){                    
                     res.status(409).json({message: 'User already exists', results: results});

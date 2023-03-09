@@ -1,11 +1,15 @@
 const express = require('express');
-//const indexController = require('../controllers/indexController');
+const trackedShowsController = require('../controllers/trackedShowsController');
 var router = express.Router();
 
-//Index Routes
-router.get('/', (req, res) => {
-    res.send('<p>Tracked Shows Directory </p>');
-})
+
+/*********************************
+       tracked shows Routes
+*********************************/
+
+
+//CREATE - POST - INSERT
+router.get('/', trackedShowsController.insert);
 
 module.exports = router;
 
