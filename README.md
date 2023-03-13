@@ -30,7 +30,7 @@
 - Arquitectura MVC
 - API restful
   
-### Atributos de cada usuario
+## Atributos de cada usuario
 - nombre
 - correo electronico
 - contraseña
@@ -39,3 +39,7 @@
 - Nombre y apellido reales (Opcional)
 - Fecha de cumpleaños (Opcional)
 - Paleta de colores (Opcional)
+
+## Vistas 
+- Landing page de visitantes (que es?, como funciona?, Ingresar, comencemos (registrarse))
+- Inicio con las series en seguimiento por el usuario.
