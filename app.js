@@ -5,10 +5,10 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-/*for the index, with some documentation
+/*for the index, with some documentation*/
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-*/
+
 
 const indexRouter = require('./app/routes/indexRoutes');
 const usersRouter = require('./app/routes/usersRoutes');

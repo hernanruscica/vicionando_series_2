@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
     /*
     host: '190.228.29.62',
     user: 'cruscica',
-    password: 'B4rt0n2018',
+    password: 'B4rt0n2018', 
     database: 'ruscicacode_vicionando_series_2'*/
 });
 
