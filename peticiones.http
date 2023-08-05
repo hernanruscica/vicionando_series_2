@@ -1,0 +1,64 @@
+GET /api/users HTTP/1.1
+Host: localhost:1000
+Content-Type: application/json
+Content-Length: 89
+
+###
+
+POST /api/users HTTP/1.1
+Host: localhost:1000
+Content-Type: application/json
+Content-Length: 89
+
+{
+    "name" : "frovira2022", 
+    "email" : "fulge2022@hotmail.com",
+    "password" : 1234,
+    "roles_id" : 1,
+    "photos_id" : 2,
+    "real_name" : "Fulgencio rovira",  
+    "birthday" : "1998-01-01", 
+    "palettes_id" : 1
+}
+
+###################
+
+POST /api/users/ HTTP/1.1
+Host: localhost:1000
+Content-Type: application/json
+Content-Length: 89
+
+{
+    "name" : "bobspunge", 
+    "email" : "bob1999@nickelodeon.tv",
+    "password" : 1234,
+    "roles_id" : 1,
+    "photos_id" : 2,
+    "real_name" : "Bob Spunge",  
+    "birthday" : "1999-03-05", 
+    "palettes_id" : 1
+}
+
+###################
+
+PATCH /api/users/62 HTTP/1.1
+Host: localhost:1000
+Content-Type: application/json
+Content-Length: 89
+
+{
+    "name" : "nuevo_luis", 
+    "email" : "nuevo.luisito@hotmail.com",
+    "password" : 1234,
+    "roles_id" : 1,
+    "photos_id" : 2,
+    "real_name" : "Luis Beltran",  
+    "birthday" : "1901-03-05", 
+    "palettes_id" : 1
+}
+
+####
+
+DELETE /api/users/67 HTTP/1.1
+Host: localhost:1000
+Content-Type: application/json

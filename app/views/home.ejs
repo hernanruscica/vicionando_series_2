@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenidos a "Vicionando Series" - Home</title>
+    <title>ABM users API with JSON WEB TOKEN  - Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <!--
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
@@ -39,7 +40,7 @@
         </nav>
     </header>
     
-        <!-- Hero -->
+         Hero 
         <div class="text-center bg-image " style="background-image: url('../public/imgs/pexels-ketut-subiyanto-4474011.jpg');height: 400px;">
             <div class="mask h-100 w-100" style="background-color: rgba(0, 0, 0, 0.6);">
                 <div class="d-flex justify-content-left">
@@ -51,13 +52,29 @@
                 </div>
             </div>
         </div>
-        <!-- Hero -->
+         Hero -->
         <div class="p-5">
-            <h2>Informacion de la API</h2>
-            <p>index: <a href="http://localhost:1000/" target="_blank">http://localhost:1000/</a></p>
-            <p>All Users: <a href="http://localhost:1000/api/users" target="_blank">http://localhost:1000/api/users</a></p>
-            <p>Find User by ID: <a href="http://localhost:1000/api/users/1" target="_blank">http://localhost:1000/api/users/1 (example)</a></p>
-            <p>Find User by specific field: <a href="http://localhost:1000/api/users/name/juan" target="_blank">http://localhost:1000/api/users/name/juan (example)</a></p>
+            <h2>API End points</h2>
+            <p><strong>GET</strong> index: <a href="http://<%= hostName %>:<%= port %>/" target="_blank">http://<%= hostName %>:<%= port %>/</a></p>
+            <p><strong>GET</strong> All Users: <a href="http://<%= hostName %>:<%= port %>/api/users" target="_blank">http://<%= hostName %>:<%= port %>/api/users</a></p>
+            <p><strong>GET</strong> Find User by ID: <a href="http://<%= hostName %>:<%= port %>/api/users/1" target="_blank">http://<%= hostName %>:<%= port %>/api/users/1 (example)</a></p>
+            <p><strong>GET</strong> Find User by specific field: <a href="http://<%= hostName %>:<%= port %>/api/users/name/juan" target="_blank">http://<%= hostName %>:<%= port %>/api/users/name/juan (example)</a></p>
+            <p><strong>POST</strong> <%= hostName %>:<%= port %>/api/users/ (example) with <strong>JSON DATA</strong> in body request - 'name' and 'email' should be unique</p>
+            <p><strong>PATCH</strong> <%= hostName %>:<%= port %>/api/users/67 (example) Existing id user in DB and <strong>JSON DATA</strong> in body request</p>
+            <p>example:
+            <code>{
+                "name" : "nuevo_luis", 
+                "email" : "nuevo.luisito@hotmail.com",
+                "password" : 1234,
+                "roles_id" : 1,
+                "photos_id" : 2,
+                "real_name" : "Luis Beltran",  
+                "birthday" : "1901-03-05", 
+                "palettes_id" : 1
+            }</code>
+            </p>
+            <p><strong>DELETE</strong> <%= hostName %>:1000/api/users/67 (example) Existing id user in DB</p>
+
         </div> 
     
 
