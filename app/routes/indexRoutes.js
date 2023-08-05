@@ -5,7 +5,7 @@ var router = express.Router();
 //Index Routes
 router.get('/', (req, res) => {    
     
-    res.render('home', {hostName: req.hostname, port: 1000});
+    res.render('home', {hostName: req.hostname, port: 3001});
     console.log(req.headers.host)
 });
 

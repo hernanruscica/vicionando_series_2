@@ -25,7 +25,7 @@ app.use('/api/tracked-shows', trackedShowsRouter);
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static('./public'));
 
-const port = 1000;
+const port = 3001;
 
 
 app.listen(port, () => console.log(`App escuchando en http://${hostName}:${port}`));
