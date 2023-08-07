@@ -23,7 +23,7 @@ Content-Length: 89
 
 ###################
 
-POST /api/users/ HTTP/1.1
+POST /api/users HTTP/1.1
 Host: localhost:1000
 Content-Type: application/json
 Content-Length: 89
@@ -42,7 +42,7 @@ Content-Length: 89
 ###################
 
 PATCH /api/users/62 HTTP/1.1
-Host: localhost:1000
+Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
 
@@ -60,5 +60,17 @@ Content-Length: 89
 ####
 
 DELETE /api/users/67 HTTP/1.1
-Host: localhost:1000
+Host: localhost:3001
 Content-Type: application/json
+
+####
+
+POST /api/users/authenticate HTTP/1.1
+Host: localhost:3001
+Content-Type: application/json
+Content-Length: 89
+
+{
+    "username": "chernan"  ,
+    "password": "123456789"
+}

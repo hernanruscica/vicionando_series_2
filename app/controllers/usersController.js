@@ -1,4 +1,4 @@
-
+const jwt  = require('jsonwebtoken');
 const DB_connection = require('../models/connection_db');
 const usersModel = require('../models/usersModel');
 
@@ -103,5 +103,22 @@ module.exports = {
                 res.status(500).json({message: 'Error deleting user', results: err});
             }
         })
+    },
+    authenticate: async (req, res) => {
+        const userName = req.body.username;
+        const password = req.body.password;
+
+        //console.log("authenticate")
+
+        function validCredentials(username, password){
+            // Check if the credentials are valid
+            return true;
+        }
+
+        if (!validCredentials(userName, password)){
+            return res.status(401).send({error: 'Invalid credentials'});
+        }
+        const token = jwt.sign({userId: userName}, process.env.SECRET_KEY, {expiresIn: 86400});
+        res.send({token});
     }
 }

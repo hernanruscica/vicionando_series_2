@@ -55,10 +55,10 @@
          Hero -->
         <div class="p-5">
             <h2>API End points</h2>
-            <p><strong>GET</strong> index: <a href="http://<%= hostName %>/" target="_blank">http://<%= hostName %>/</a></p>
-            <p><strong>GET</strong> All Users: <a href="http://<%= hostName %>/api/users" target="_blank">http://<%= hostName %>/api/users</a></p>
-            <p><strong>GET</strong> Find User by ID: <a href="http://<%= hostName %>/api/users/1" target="_blank">http://<%= hostName %>/api/users/1 (example)</a></p>
-            <p><strong>GET</strong> Find User by specific field: <a href="http://<%= hostName %>/api/users/name/juan" target="_blank">http://<%= hostName %>/api/users/name/juan (example)</a></p>
+            <p><strong>GET</strong> index: <a href="http://<%= hostName %><%= port %>/" target="_blank">http://<%= hostName %><%= port %>/</a></p>
+            <p><strong>GET</strong> All Users: <a href="http://<%= hostName %><%= port %>/api/users" target="_blank">http://<%= hostName %><%= port %>/api/users</a></p>
+            <p><strong>GET</strong> Find User by ID: <a href="http://<%= hostName %><%= port %>/api/users/1" target="_blank">http://<%= hostName %><%= port %>/api/users/1 (example)</a></p>
+            <p><strong>GET</strong> Find User by specific field: <a href="http://<%= hostName %><%= port %>/api/users/name/juan" target="_blank">http://<%= hostName %><%= port %>/api/users/name/juan (example)</a></p>
             <p><strong>POST</strong> <%= hostName %>/api/users/ (example) with <strong>JSON DATA</strong> in body request - 'name' and 'email' should be unique</p>
             <p><strong>PATCH</strong> <%= hostName %>/api/users/67 (example) Existing id user in DB and <strong>JSON DATA</strong> in body request</p>
             <p>example:

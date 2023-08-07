@@ -9,6 +9,7 @@ var router = express.Router();
 
 //CREATE - POST - INSERT
 router.post('/', usersController.insertUser);
+router.post('/authenticate', usersController.authenticate);
 
 //READ - GET - SELECT
 router.get('/', usersController.getAllUsers);
