@@ -47,8 +47,11 @@ module.exports = {
     },
     insertUser: async (req, res) => {
         let data = req.body;  
-        console.log(req.body)      
+        console.log(data.password)      
         /*
+
+        ACa modificar el password para guardarlo hasheado con JWT y la palabra secreta
+
         data = {
             name : "frovira", 
             email : "fulge@hotmail.com",
@@ -60,6 +63,8 @@ module.exports = {
             palettes_id : 1
         }
         */
+        
+
          await usersModel.insert(data, DB_connection, (err, results) => {                    
             if (!err){                
                     res.status(200).json({message: 'OK', results: data});    
