@@ -1,6 +1,8 @@
 const jwt  = require('jsonwebtoken');
+const bcrypt  = require('bcryptjs');
 const DB_connection = require('../models/connection_db');
 const usersModel = require('../models/usersModel');
+
 
 
 module.exports = {
@@ -47,7 +49,7 @@ module.exports = {
     },
     insertUser: async (req, res) => {
         let data = req.body;  
-        console.log(data.password)      
+        
         /*
 
         ACa modificar el password para guardarlo hasheado con JWT y la palabra secreta
@@ -63,11 +65,28 @@ module.exports = {
             palettes_id : 1
         }
         */
+        let token = null;
+        const saltRounds = 10; // Número de saltos para el hash bcrypt
+        console.log(data.password);
         
+        try{
+            const hashedPassword = await bcrypt.hash(data.password.toString(), saltRounds);
+            console.log(hashedPassword);
+            data.password = hashedPassword;
+
+            // Generar el token JWT y enviarlo como respuesta
+            token = jwt.sign({userName: data.name}, process.env.SECRET_KEY, {expiresIn: 86400});
+            //res.send({token});
+
+        }
+        catch (error){
+            console.error('Error generating the token JWT:', error);
+            res.status(500).json({ message: 'Error generating the token JWT'});
+        }
 
          await usersModel.insert(data, DB_connection, (err, results) => {                    
             if (!err){                
-                    res.status(200).json({message: 'OK', results: data});    
+                    res.status(200).json({message: 'OK', results: data, token: token});    
             }else{                
                 if (err.code == 'ER_DUP_ENTRY'){                    
                     res.status(409).json({message: 'User already exists', results: results});
@@ -123,7 +142,7 @@ module.exports = {
         if (!validCredentials(userName, password)){
             return res.status(401).send({error: 'Invalid credentials'});
         }
-        const token = jwt.sign({userId: userName}, process.env.SECRET_KEY, {expiresIn: 86400});
+        const token = jwt.sign({userName: userName}, process.env.SECRET_KEY, {expiresIn: 86400});
         res.send({token});
     }
 }

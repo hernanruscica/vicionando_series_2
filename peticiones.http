@@ -24,13 +24,13 @@ Content-Length: 89
 ###################
 
 POST /api/users HTTP/1.1
-Host: localhost:1000
+Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
 
 {
-    "name" : "bobspunge", 
-    "email" : "bob1999@nickelodeon.tv",
+    "name" : "bobspungeG", 
+    "email" : "bob1999G@nickelodeon.tv",
     "password" : 1234,
     "roles_id" : 1,
     "photos_id" : 2,
