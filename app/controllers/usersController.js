@@ -51,9 +51,6 @@ module.exports = {
         let data = req.body;  
         
         /*
-
-        ACa modificar el password para guardarlo hasheado con JWT y la palabra secreta
-
         data = {
             name : "frovira", 
             email : "fulge@hotmail.com",
