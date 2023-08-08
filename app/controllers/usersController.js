@@ -33,7 +33,7 @@ module.exports = {
             }   
         })
     },
-    getUserById: (req, res) => {
+    getUserById: async (req, res) => {
         let id = req.params.id;
         usersModel.getById(id, DB_connection, (err, results) => {
             if (!err){

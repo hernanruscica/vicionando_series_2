@@ -1,6 +1,7 @@
 const express = require('express');
 //const { insertUser } = require('../controllers/usersController');
 const usersController = require('../controllers/usersController');
+const authTools = require('../utils/authTools.js');
 var router = express.Router();
 
 /*********************************
@@ -13,7 +14,11 @@ router.post('/authenticate', usersController.authenticate);
 
 //READ - GET - SELECT
 router.get('/', usersController.getAllUsers);
-router.get('/:id', usersController.getUserById);
+
+//en esta ruta quiero probar la autenticacion del token
+router.get('/:id', authTools.verificarToken, usersController.getUserById);
+
+
 router.get('/:field/:value', usersController.getUserByField);
 
 //UPDATE - PATCH - UPDATE
