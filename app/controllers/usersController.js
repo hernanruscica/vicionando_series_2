@@ -128,26 +128,34 @@ module.exports = {
     authenticate: async (req, res) => {
         const userName = req.body.username;
         const password = req.body.password;
-
-        
-        let userNameExists = null;
-        await usersModel.getByFieldStrict('name', userName, DB_connection, (err, results) => {
-            console.log("validating crendentials", userName, results)
-            if (!err){
-                if (results.length > 0){
-                    userNameExists = true;     
-                    const token = jwt.sign({userName: userName}, process.env.SECRET_KEY, {expiresIn: 86400});
-                    res.send({token});  
-                                  
-                }else {
-                    userNameExists = false;
-                    return res.status(401).send({error: 'Invalid credentials'});
-                } }                      
-        })  
-
-        
-
-        
-        
-    }
+      
+        try {
+          await usersModel.getByFieldStrict('name', userName, DB_connection, async (err, results) => {
+            if (err) {
+              console.error(err);
+              return res.status(500).send({ error: 'Internal Server Error' });
+            }
+      
+            if (results.length > 0) {
+              const user = results[0];
+      
+              // Verificar la contraseña utilizando bcrypt
+              const passwordMatch = await bcrypt.compare(password, user.password);
+      
+              if (passwordMatch) {
+                const token = jwt.sign({ userName: userName }, process.env.SECRET_KEY, { expiresIn: 86400 });
+                return res.send({ token });
+              } else {
+                return res.status(401).send({ error: 'Invalid credentials' });
+              }
+            } else {
+              return res.status(401).send({ error: 'Invalid credentials' });
+            }
+          });
+        } catch (error) {
+          console.error(error);
+          return res.status(500).send({ error: 'Internal Server Error' });
+        }
+      }
+      
 }
