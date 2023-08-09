@@ -35,6 +35,7 @@ module.exports = {
     },
     getUserById: async (req, res) => {
         let id = req.params.id;
+        //console.log(req.params.userName)  //if necesary you could return the user name in the response      
         usersModel.getById(id, DB_connection, (err, results) => {
             if (!err){
                 if (results.length > 0){
@@ -48,8 +49,7 @@ module.exports = {
         })
     },
     insertUser: async (req, res) => {
-        let data = req.body;  
-        
+        let data = req.body;          
         /*
         data = {
             name : "frovira", 
@@ -129,17 +129,25 @@ module.exports = {
         const userName = req.body.username;
         const password = req.body.password;
 
-        //console.log("authenticate")
+        
+        let userNameExists = null;
+        await usersModel.getByFieldStrict('name', userName, DB_connection, (err, results) => {
+            console.log("validating crendentials", userName, results)
+            if (!err){
+                if (results.length > 0){
+                    userNameExists = true;     
+                    const token = jwt.sign({userName: userName}, process.env.SECRET_KEY, {expiresIn: 86400});
+                    res.send({token});  
+                                  
+                }else {
+                    userNameExists = false;
+                    return res.status(401).send({error: 'Invalid credentials'});
+                } }                      
+        })  
 
-        function validCredentials(username, password){
-            // Check if the credentials are valid
-            return true;
-        }
+        
 
-        if (!validCredentials(userName, password)){
-            return res.status(401).send({error: 'Invalid credentials'});
-        }
-        const token = jwt.sign({userName: userName}, process.env.SECRET_KEY, {expiresIn: 86400});
-        res.send({token});
+        
+        
     }
 }

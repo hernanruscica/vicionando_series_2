@@ -9,23 +9,23 @@ var router = express.Router();
 *********************************/
 
 //CREATE - POST - INSERT
+router.get('/authenticate', usersController.authenticate);
 router.post('/', usersController.insertUser);
-router.post('/authenticate', usersController.authenticate);
 
-//READ - GET - SELECT
-router.get('/', usersController.getAllUsers);
+//READ - GET - SELECT all users
+router.get('/', authTools.verificarToken, usersController.getAllUsers);
 
-//en esta ruta quiero probar la autenticacion del token
+//READ - GET - SELECT user by id
 router.get('/:id', authTools.verificarToken, usersController.getUserById);
 
+//READ GET - SELECT user by field name an value of the field
+router.get('/:field/:value', authTools.verificarToken, usersController.getUserByField);
 
-router.get('/:field/:value', usersController.getUserByField);
+//UPDATE - PATCH - UPDATE by id
+router.patch('/:id', authTools.verificarToken, usersController.updateUser);
 
-//UPDATE - PATCH - UPDATE
-router.patch('/:id', usersController.updateUser);
-
-//DELETE - DELETE - DELETE
-router.delete('/:id', usersController.deleteUser);
+//DELETE - DELETE - DELETE by id
+router.delete('/:id', authTools.verificarToken, usersController.deleteUser);
 
 module.exports = router;
 

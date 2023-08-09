@@ -2,6 +2,7 @@ GET /api/users HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImNoZXJuYW4iLCJpYXQiOjE2OTE1MTk3MzcsImV4cCI6MTY5MTYwNjEzN30.LjYYAtwFxREbSJoLGy8gNGdCEEXCtgKlZSVNMVH7fnI
 
 ###
 
@@ -9,17 +10,30 @@ GET /api/users/1 HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImNoZXJuYW4iLCJpYXQiOjE2OTE1MTk3MzcsImV4cCI6MTY5MTYwNjEzN30.LjYYAtwFxREbSJoLGy8gNGdCEEXCtgKlZSVNMVH7fnI
 
 ###
 
-POST /api/users HTTP/1.1
-Host: localhost:1000
+GET /api/users/authenticate HTTP/1.1
+Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
 
 {
-    "name" : "frovira2022", 
-    "email" : "fulge2022@hotmail.com",
+    "username": "pep"  ,
+    "password": "123456789"
+}
+
+###
+
+POST /api/users HTTP/1.1
+Host: localhost:3001
+Content-Type: application/json
+Content-Length: 89
+
+{
+    "name" : "frovidrad2022", 
+    "email" : "fuldge202d2@hotmail.com",
     "password" : 1234,
     "roles_id" : 1,
     "photos_id" : 2,
@@ -30,28 +44,11 @@ Content-Length: 89
 
 ###################
 
-POST /api/users HTTP/1.1
-Host: localhost:3001
-Content-Type: application/json
-Content-Length: 89
-
-{
-    "name" : "bobspungeG", 
-    "email" : "bob1999G@nickelodeon.tv",
-    "password" : 1234,
-    "roles_id" : 1,
-    "photos_id" : 2,
-    "real_name" : "Bob Spunge",  
-    "birthday" : "1999-03-05", 
-    "palettes_id" : 1
-}
-
-###################
-
 PATCH /api/users/62 HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImNoZXJuYW4iLCJpYXQiOjE2OTE1MTk3MzcsImV4cCI6MTY5MTYwNjEzN30.LjYYAtwFxREbSJoLGy8gNGdCEEXCtgKlZSVNMVH7fnI
 
 {
     "name" : "nuevo_luis", 
@@ -69,25 +66,8 @@ Content-Length: 89
 DELETE /api/users/62 HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImNoZXJuYW4iLCJpYXQiOjE2OTE1MTk3MzcsImV4cCI6MTY5MTYwNjEzN30.LjYYAtwFxREbSJoLGy8gNGdCEEXCtgKlZSVNMVH7fnI
 
 ####
 
-POST /api/users/authenticate HTTP/1.1
-Host: localhost:3001
-Content-Type: application/json
-Content-Length: 89
 
-{
-    "username": "chernan"  ,
-    "password": "123456789"
-}
-
-###
-
-GET /api/users/2 HTTP/1.1
-Host: localhost:3001
-Content-Type: application/json
-Content-Length: 89
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImNoZXJuYW4iLCJpYXQiOjE2OTE1MTk3MzcsImV4cCI6MTY5MTYwNjEzN30.LjYYAtwFxREbSJoLGy8gNGdCEEXCtgKlZSVNMVH7fnI
-
-###

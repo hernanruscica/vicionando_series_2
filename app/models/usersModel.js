@@ -5,6 +5,9 @@ module.exports = {
     getByField: (field, value, conn, myFunction) => {
         conn.query(`SELECT * FROM users WHERE ${field} LIKE '%${value}%'`, myFunction);
     },
+    getByFieldStrict: (field, value, conn, myFunction) => {
+        conn.query(`SELECT * FROM users WHERE ${field} = '${value}'`, myFunction);
+    },
     getById: (id, conn, myFunction) => {
         conn.query(`SELECT * FROM users WHERE id = '${id}'`, myFunction);
     },

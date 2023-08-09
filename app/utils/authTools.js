@@ -15,9 +15,10 @@ module.exports = {
       if (err) {
         console.log('Token inválido');
         return res.status(401).json({ message: 'Token inválido' });
-      }
-  
-      req.userId = decoded.userId; // Agregar los datos decodificados a la solicitud
+      }else{
+        console.log(decoded);
+      }  
+      //req.params.userName = decoded.userName;   //if necesary you could add the user name to the request header for the next    
       next();
     });
   }
