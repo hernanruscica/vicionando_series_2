@@ -5,11 +5,11 @@ const authTools = require('../utils/authTools.js');
 var router = express.Router();
 
 /*********************************
-             users Routes
+             /users Routes 
 *********************************/
 
-//CREATE - POST - INSERT
-router.get('/authenticate', usersController.authenticate);
+//CREATE - POST - INSERT 
+router.post('/authenticate', usersController.authenticate);
 router.post('/', usersController.insertUser);
 
 //READ - GET - SELECT all users

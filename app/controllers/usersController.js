@@ -128,7 +128,7 @@ module.exports = {
     authenticate: async (req, res) => {
         const userName = req.body.username;
         const password = req.body.password;
-      
+        console.log("authenticate", userName, password)
         try {
           await usersModel.getByFieldStrict('name', userName, DB_connection, async (err, results) => {
             if (err) {
