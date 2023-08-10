@@ -13,7 +13,7 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="\">
                     <i class="fa-regular fa-eye"></i>
                     Vicionando Series
                 </a>
@@ -34,7 +34,7 @@
                             <a class="nav-link active" aria-current="page" href="/api/users/register">Registrarse</a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="/">API info</a>
+                            <a class="nav-link" href="\">API info</a>
                         </li>                       
                                          
                     </ul>                
@@ -48,28 +48,28 @@
             <label > <%= error %></label><br>
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre de usuario</label>
-                <input type="text" class="form-control" id="name">
+                <input type="text" class="form-control" id="register_name" name="register_name">
             </div>
             <div class="mb-3">                
                 <label for="email" class="form-label">Correo Electronico</label>
-                <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
                 <div id="register-email" class="form-text">Ingrese una direccion de correo valida nombre@servidor.com</div>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password">
+                <input type="password" class="form-control" id="register_password" name="register_password">
             </div>
             <div class="mb-3">
                 <label for="password2" class="form-label">Repita Password</label>
-                <input type="password" class="form-control" id="password2">
+                <input type="password" class="form-control" id="password2" name="password2">
             </div>
             <div class="mb-3" >
                 <label for="real_name" class="form-label">Nombre real</label>
-                <input type="text" class="form-control" id="real_name">
+                <input type="text" class="form-control" id="real_name" name="real_name">
             </div>
             <div class="mb-3" >
                 <label for="birthday" class="form-label">Fecha de nacimiento</label>
-                <input type="date" class="form-control" id="birthday">
+                <input type="date" class="form-control" id="birthday" name="birthday">
             </div>
             <button type="submit" class="btn btn-primary">Registrarse</button>
         </form>

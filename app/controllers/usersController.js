@@ -48,28 +48,20 @@ module.exports = {
             }   
         })
     },
-    insertUser: async (req, res) => {
-        let data = req.body;          
-        /*
+    insertUser: async (req, res) => {        
         data = {
-            name : "frovira", 
-            email : "fulge@hotmail.com",
-            password : 1234,
+            name : req.body.register_name, 
+            email : req.body.email,
+            password : req.body.register_password,
             roles_id : 1,
             photos_id : 2,
-            real_name: "Fulgencio rovira",  
-            birthday : "1998-01-01", 
+            real_name: req.body.real_name,  
+            birthday : req.body.birthday, 
             palettes_id : 1
-        }
-        */
-
-        data.roles_id = 1;
-        data.photos_id = 2;
-        data.palettes_id = 1
-
+        }     
         let token = null;
         const saltRounds = 10; // Número de saltos para el hash bcrypt
-        console.log(data.password);
+        //console.log(data.password);
         
         try{
             const hashedPassword = await bcrypt.hash(data.password.toString(), saltRounds);
@@ -88,7 +80,7 @@ module.exports = {
 
          await usersModel.insert(data, DB_connection, (err, results) => {                    
             if (!err){                
-                    res.status(200).json({message: 'OK', results: data, token: token});    
+                    res.status(200).render('viewtoken', {message: 'OK', results: data, token: token});    
             }else{                
                 if (err.code == 'ER_DUP_ENTRY'){                    
                     res.status(409).json({message: 'User already exists', results: results});
