@@ -12,6 +12,9 @@ var router = express.Router();
 router.post('/authenticate', usersController.authenticate);
 router.post('/', usersController.insertUser);
 
+//READ GET - brings the register form
+router.get('/register', (req, res) => res.render('register', {error: ''}));
+
 //READ - GET - SELECT all users
 router.get('/', authTools.verificarToken, usersController.getAllUsers);
 
@@ -20,6 +23,8 @@ router.get('/:id', authTools.verificarToken, usersController.getUserById);
 
 //READ GET - SELECT user by field name an value of the field
 router.get('/:field/:value', authTools.verificarToken, usersController.getUserByField);
+
+
 
 //UPDATE - PATCH - UPDATE by id
 router.patch('/:id', authTools.verificarToken, usersController.updateUser);
