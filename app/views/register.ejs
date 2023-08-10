@@ -43,22 +43,33 @@
         </nav>
     </header>
     <div class="container m-auto p-5">
-        <h1 class="mb-5">Registro para obtener el token de aPI</h1>
-        <form class="w-75  " method="post">
+        <h1 class="mb-5">Registro para acceder a la API</h1>
+        <form class="w-75  " method="post" action='/api/users/'>
+            <label > <%= error %></label><br>
             <div class="mb-3">
-                <label > <%= error %></label><br>
-                <label for="register-email" class="form-label">Correo Electronico</label>
-                <input type="email" class="form-control" id="register-email" aria-describedby="emailHelp">
-                <div id="register-email" class="form-text">Ingrese una direccion de correo valida nombre@servidor.com</div>
-                </div>
-                <div class="mb-3">
-                <label for="register-password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="register-password">
+                <label for="name" class="form-label">Nombre de usuario</label>
+                <input type="text" class="form-control" id="name">
             </div>
-            <div class="mb-3 form-check">
-                <!--
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-             <label class="form-check-label" for="exampleCheck1">Check me out</label> -->
+            <div class="mb-3">                
+                <label for="email" class="form-label">Correo Electronico</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                <div id="register-email" class="form-text">Ingrese una direccion de correo valida nombre@servidor.com</div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password">
+            </div>
+            <div class="mb-3">
+                <label for="password2" class="form-label">Repita Password</label>
+                <input type="password" class="form-control" id="password2">
+            </div>
+            <div class="mb-3" >
+                <label for="real_name" class="form-label">Nombre real</label>
+                <input type="text" class="form-control" id="real_name">
+            </div>
+            <div class="mb-3" >
+                <label for="birthday" class="form-label">Fecha de nacimiento</label>
+                <input type="date" class="form-control" id="birthday">
             </div>
             <button type="submit" class="btn btn-primary">Registrarse</button>
         </form>

@@ -62,6 +62,11 @@ module.exports = {
             palettes_id : 1
         }
         */
+
+        data.roles_id = 1;
+        data.photos_id = 2;
+        data.palettes_id = 1
+
         let token = null;
         const saltRounds = 10; // Número de saltos para el hash bcrypt
         console.log(data.password);

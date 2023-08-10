@@ -11,6 +11,7 @@ var router = express.Router();
 //CREATE - POST - INSERT 
 router.post('/authenticate', usersController.authenticate);
 router.post('/', usersController.insertUser);
+router.post('/register', usersController.insertUser);
 
 //READ GET - brings the register form
 router.get('/register', (req, res) => res.render('register', {error: ''}));
