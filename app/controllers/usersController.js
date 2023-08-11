@@ -141,7 +141,8 @@ module.exports = {
       
               if (passwordMatch) {
                 const token = jwt.sign({ userName: userName }, process.env.SECRET_KEY, { expiresIn: 86400 });
-                return res.status(200).render('viewToken', { token , userName});
+                //return res.status(200).render('viewToken', { token , userName});
+                res.redirect(`/api/users/session/${results[0].id}`); 
               } else {
                 return res.status(401).render('login', { error: 'Invalid credentials' });
               }
@@ -153,6 +154,10 @@ module.exports = {
           console.error(error);
           return res.status(500).send({ error: 'Internal Server Error' });
         }
+      },
+      setSession: async (req, res) => {      
+        let id = req.params.id;      
+        res.status(200).send(`iniciando sesion con id: ${id}`);
       }
       
 }
