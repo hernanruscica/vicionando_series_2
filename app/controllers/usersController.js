@@ -139,8 +139,7 @@ module.exports = {
               // Verificar la contraseña utilizando bcrypt
               const passwordMatch = await bcrypt.compare(password, user.password);
       
-              if (passwordMatch) {
-                const token = jwt.sign({ userName: userName }, process.env.SECRET_KEY, { expiresIn: 86400 });
+              if (passwordMatch) {                
                 //return res.status(200).render('viewToken', { token , userName});
                 res.redirect(`/api/users/session/${results[0].id}`); 
               } else {
@@ -156,8 +155,34 @@ module.exports = {
         }
       },
       setSession: async (req, res) => {      
-        let id = req.params.id;      
-        res.status(200).send(`iniciando sesion con id: ${id}`);
-      }
+        let id = req.params.id;    
+        console.log(`iniciando sesion con id: ${id}`);
+
+        
+
+        await usersModel.getById(id, DB_connection, (err, results) => {
+
+            const token = jwt.sign({ userName: results[0].name }, process.env.SECRET_KEY, { expiresIn: 86400 });
+            if (!err){
+                console.log("encontre al usuario por id", results[0].name)
+                req.session.user = {
+                    name: results[0].name,
+                    id: results[0].id,
+                    email: results[0].email,
+                    password: results[0].password,
+                    token: token
+                };                  
+                res.redirect('/api/users/profile');   
+            }else{
+                console.log("error al buscar al usuario por id");
+            }
+            })
+        //res.status(200).send(`iniciando sesion con id: ${id}`);
+      },
+      destroySession: (req, res) => {        
+        console.log("Session destroyed successfully");
+        req.session.user = undefined;
+        res.redirect('/');
+    },
       
 }
