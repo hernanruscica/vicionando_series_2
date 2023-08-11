@@ -14,6 +14,8 @@ router.post('/register', usersController.insertUser);
 
 //READ GET - brings the register form
 router.get('/register', (req, res) => res.render('register', {error: ''}));
+router.get('/login', (req, res) => res.render('login', {error: ''}));
+router.get('/profile', (req, res) => res.render('profile', {error: ''}));//le deberia pasar la variable de session del nombre de usuario
 
 //READ - GET - SELECT all users
 router.get('/', authTools.verificarToken, usersController.getAllUsers);

@@ -141,12 +141,12 @@ module.exports = {
       
               if (passwordMatch) {
                 const token = jwt.sign({ userName: userName }, process.env.SECRET_KEY, { expiresIn: 86400 });
-                return res.status(200).render('viewtoken', { token });
+                return res.status(200).render('viewToken', { token , userName});
               } else {
                 return res.status(401).render('login', { error: 'Invalid credentials' });
               }
             } else {
-              return res.status(401).send({ error: 'Invalid credentials' });
+              return res.status(401).render('login',{ error: 'Invalid credentials' });
             }
           });
         } catch (error) {
