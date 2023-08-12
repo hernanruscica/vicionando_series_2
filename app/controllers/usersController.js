@@ -2,7 +2,7 @@ const jwt  = require('jsonwebtoken');
 const bcrypt  = require('bcryptjs');
 const DB_connection = require('../models/connection_db');
 const usersModel = require('../models/usersModel');
-
+const mail = require('../utils/mail');
 
 
 module.exports = {
@@ -58,13 +58,13 @@ module.exports = {
             real_name: req.body.real_name,  
             birthday : req.body.birthday, 
             palettes_id : 1
-        }     
+        }          
         let token = null;
         const saltRounds = 10; // Número de saltos para el hash bcrypt
         //console.log(data.password);
         
         try{
-            const hashedPassword = await bcrypt.hash(data.password.toString(), saltRounds);
+            const hashedPassword = await bcrypt.hash(data.password, saltRounds);
             console.log(hashedPassword);
             data.password = hashedPassword;
 
@@ -80,7 +80,11 @@ module.exports = {
 
          await usersModel.insert(data, DB_connection, (err, results) => {                    
             if (!err){                
-                    res.status(200).render('viewtoken', {message: 'OK', results: data, token: token});    
+                    let id_recuperacion = token;
+                    mail.send('cesarhernanruscica@gmail.com', data.name, id_recuperacion)
+                    //res.status(200).render('viewtoken', {message: 'OK', user: data, token: token});    
+                    res.redirect(`/api/users/session/${results.insertId}`);
+                    //res.status(200).send({insertId: results.insertId})
             }else{                
                 if (err.code == 'ER_DUP_ENTRY'){                    
                     res.status(409).json({message: 'User already exists', results: results});
