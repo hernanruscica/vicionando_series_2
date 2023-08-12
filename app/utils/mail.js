@@ -2,7 +2,8 @@ const nodemailer = require('nodemailer');
 
 module.exports = {
     // Crear una función para enviar un correo electrónico
-    send: (email, name, id_recuperacion) => {
+    sendWelcome: (data, token) => {
+        console.log("enviando mail")
         // Configurar el servicio de correo electrónico
         let transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
@@ -17,11 +18,20 @@ module.exports = {
         // Definir los detalles del correo electrónico
         let mailOptions = {
             from: 'info@ruscica-code.ar',
-            to: email,
-            subject: 'Restablecimiento de contraseña - Agenda codo a codo',
-            html: ` <h1>Agenda codo a codo</h1>
-                    <h2>Sistema de restablecimiento de contraseñas</h2>
-                    <p>Siga este enlace para poder restablecer la contraseña: <a href="${process.env.APP_URL}/recuperar_pass/${name}/${id_recuperacion}">Restablecer contraseña - Mi Agenda app</a></p>
+            to: 'cesarhernanruscica@gmail.com',
+            subject: 'Registrado - ABM users API',
+            html: ` <div style="font-size: 1rem">
+                        <h1>ABM users API</h1>
+                        <p>Hola <strong>${data.name}</strong>, bienvenido!</p>
+                        <p>Se registro exitosamente en <strong>ABM users API</strong><br>
+                        Ahora puede <a href="${process.env.APP_URL}/api/users/login/">Ingresar a su perfil</a><br>
+                        Tambien puede aprender a usar la API <a href="${process.env.APP_URL}/api/info/">haciendo click aca.</a>
+                        </p>
+                        <p style="word-break: break-all;">
+                            <strong>Su Token es:  </strong><br>
+                            ${token}
+                        </p>
+                    </div>
                     `
             };    
         // Enviar el correo electrónico

@@ -16,6 +16,9 @@ app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }));
 
+const handle404 = (req, res, next) => {
+  res.status(404).send("<h1>ERROR 404</h1> <h2>Ruta No encontrada</h2><p><a href='/'>Puede volver al inicio</a><br></p>");
+};
 
 const indexRouter = require('./app/routes/indexRoutes');
 const usersRouter = require('./app/routes/usersRoutes');
@@ -31,6 +34,8 @@ app.use('/api/users', usersRouter);
 app.use('/api/tracked-shows', trackedShowsRouter);
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static('./public'));
+
+app.use(handle404);
 
 const port = 3001;
 

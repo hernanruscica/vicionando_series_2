@@ -50,9 +50,9 @@ module.exports = {
     },
     insertUser: async (req, res) => {        
         data = {
-            name : req.body.register_name, 
+            name : req.body.name, 
             email : req.body.email,
-            password : req.body.register_password,
+            password : req.body.password,
             roles_id : 1,
             photos_id : 2,
             real_name: req.body.real_name,  
@@ -80,8 +80,8 @@ module.exports = {
 
          await usersModel.insert(data, DB_connection, (err, results) => {                    
             if (!err){                
-                    let id_recuperacion = token;
-                    mail.send('cesarhernanruscica@gmail.com', data.name, id_recuperacion)
+                    //let id_recuperacion = token;
+                    mail.sendWelcome(data, token)
                     //res.status(200).render('viewtoken', {message: 'OK', user: data, token: token});    
                     res.redirect(`/api/users/session/${results.insertId}`);
                     //res.status(200).send({insertId: results.insertId})
@@ -166,6 +166,8 @@ module.exports = {
 
         await usersModel.getById(id, DB_connection, (err, results) => {
 
+            //no tiene que hacer otro token a menos que el usuario lo requiera.
+            //deberia buscar el token de una tabla de la BD y agregar el token a las variables de sesion
             const token = jwt.sign({ userName: results[0].name }, process.env.SECRET_KEY, { expiresIn: 86400 });
             if (!err){
                 console.log("encontre al usuario por id", results[0].name)
