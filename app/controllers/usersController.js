@@ -130,13 +130,14 @@ module.exports = {
         const userName = req.body.username;
         const password = req.body.password;
         console.log("authenticate", userName, password)
+        req.session.authenticate = false;
+        
         try {
           await usersModel.getByFieldStrict('name', userName, DB_connection, async (err, results) => {
             if (err) {
               console.error(err);
               return res.status(500).send({ error: 'Internal Server Error' });
             }
-      
             if (results.length > 0) {
               const user = results[0];
       
@@ -145,6 +146,7 @@ module.exports = {
       
               if (passwordMatch) {                
                 //return res.status(200).render('viewToken', { token , userName});
+                req.session.authenticate = true;
                 res.redirect(`/api/users/session/${results[0].id}`); 
               } else {
                 return res.status(401).render('login', { error: 'Invalid credentials' });
@@ -160,12 +162,13 @@ module.exports = {
       },
       setSession: async (req, res) => {      
         let id = req.params.id;    
-        console.log(`iniciando sesion con id: ${id}`);
-
         
+        console.log((req.session.authenticate == true) ? `Iniciando sesion con id: ${id}` : 'Acceso no autorizado', req.session.authenticate);        
 
+        if (req.session.authenticate == false){
+            return res.render('login', {error: 'Intento de acceso no autorizado por url'});
+        }
         await usersModel.getById(id, DB_connection, (err, results) => {
-
             //no tiene que hacer otro token a menos que el usuario lo requiera.
             //deberia buscar el token de una tabla de la BD y agregar el token a las variables de sesion
             const token = jwt.sign({ userName: results[0].name }, process.env.SECRET_KEY, { expiresIn: 86400 });
@@ -177,10 +180,12 @@ module.exports = {
                     email: results[0].email,
                     password: results[0].password,
                     token: token
-                };                  
+                };       
+                req.session.authenticate = false;           
                 res.redirect('/api/users/profile');   
             }else{
                 console.log("error al buscar al usuario por id");
+                res.render('login', {error: 'error al buscar al usuario por id'});
             }
             })
         //res.status(200).send(`iniciando sesion con id: ${id}`);
@@ -188,6 +193,7 @@ module.exports = {
       destroySession: (req, res) => {        
         console.log("Session destroyed successfully");
         req.session.user = undefined;
+        req.session.authenticate = false;
         res.redirect('/');
     },
       
