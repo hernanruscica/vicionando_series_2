@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <% if (user) { %>
+    <% if (typeof user !== 'undefined') { %>
         <%- include('partials/headerUser') %>  
         <% } else { %>
         <%- include('partials/headerVisitor') %>  
@@ -19,7 +19,12 @@
     <div class="container m-auto p-5">            
         <div class="w-100">
             <h1>Este es el perfil de <%= user.name %></h1>
-            <p class="mb-5" style="word-break: break-all;"><strong>Su Token: </strong><br><%= user.token %> </p>  
+            <% if (typeof message !== 'undefined') { %>
+                <p><%= message %></p>
+              <% } %>
+            <p class="mb-5">Su Token para acceder a los endpoints y hacer consultas, se envio al correo <%= user.email %></p>
+            <p class="mb-5" style="word-break: break-all;">Si quiere generar un <strong>token</strong> nuevo. Haga click en el botón </p>  
+            <button>Generar nuevo token</button>
                        
         </div>
     </div>    

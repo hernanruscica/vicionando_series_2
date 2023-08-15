@@ -61,36 +61,32 @@ module.exports = {
         }          
         let token = null;
         const saltRounds = 10; // Número de saltos para el hash bcrypt
-        //console.log(data.password);
-        
+        //console.log(data.password);        
         try{
             const hashedPassword = await bcrypt.hash(data.password, saltRounds);
             console.log(hashedPassword);
             data.password = hashedPassword;
-
             // Generar el token JWT y enviarlo como respuesta
             token = jwt.sign({userName: data.name}, process.env.SECRET_KEY, {expiresIn: 86400});
             //res.send({token});
-
         }
         catch (error){
             console.error('Error generating the token JWT:', error);
             res.status(500).json({ message: 'Error generating the token JWT'});
         }
-
          await usersModel.insert(data, DB_connection, (err, results) => {                    
             if (!err){                
-                    //let id_recuperacion = token;
-                    mail.sendWelcome(data, token)
-                    //res.status(200).render('viewtoken', {message: 'OK', user: data, token: token});    
-                    res.redirect(`/api/users/session/${results.insertId}`);
+                    console.log("Se registró correctamente, se envia correo");
+                    mail.sendWelcome(data, token);
+                    res.status(200).render('home', {message: `Se registró correctamente, se envió correo de confirmación a ${data.email}`});    
+                    //res.redirect(`/api/users/session/${results.insertId}`);
                     //res.status(200).send({insertId: results.insertId})
             }else{                
                 if (err.code == 'ER_DUP_ENTRY'){                    
-                    res.status(409).json({message: 'User already exists', results: results});
+                    res.status(409).render('home', {message: `Ya existe un usuario con ese nombre de usuario o correo registrado en el sitio` });                    
                 }else {
-                    res.status(500).json({message: 'Error inserting user', results: results});
-                    console.log(err)
+                    res.status(500).render('home', {message: `Ocurrió un error al insertar el usuario en la base de datos` });                    
+                    //console.log(err)
                 }
             }      
         })
@@ -129,8 +125,7 @@ module.exports = {
     authenticate: async (req, res) => {
         const userName = req.body.username;
         const password = req.body.password;
-        console.log("authenticate", userName, password)
-        req.session.authenticate = false;
+        console.log("authenticating ", userName, password)        
         
         try {
           await usersModel.getByFieldStrict('name', userName, DB_connection, async (err, results) => {
@@ -144,10 +139,9 @@ module.exports = {
               // Verificar la contraseña utilizando bcrypt
               const passwordMatch = await bcrypt.compare(password, user.password);
       
-              if (passwordMatch) {                
-                //return res.status(200).render('viewToken', { token , userName});
-                req.session.authenticate = true;
-                res.redirect(`/api/users/session/${results[0].id}`); 
+              if (passwordMatch) {     
+                let idToken = jwt.sign({id: results[0].id}, process.env.SECRET_KEY, {expiresIn: 86400});
+                res.redirect(`/api/users/session/${idToken}`); 
               } else {
                 return res.status(401).render('login', { error: 'Invalid credentials' });
               }
@@ -161,17 +155,27 @@ module.exports = {
         }
       },
       setSession: async (req, res) => {      
-        let id = req.params.id;    
-        
-        console.log((req.session.authenticate == true) ? `Iniciando sesion con id: ${id}` : 'Acceso no autorizado', req.session.authenticate);        
+        let idToken = req.params.idToken;    
+        console.log(`autenticando el token id: ${idToken}`)
+       
+        let userId = null;
+        try {
+            const decoded = jwt.verify(idToken, process.env.SECRET_KEY);
+            userId = decoded.id;
+            console.log('ID del usuario:', userId);
+          } catch (error) {
+            if (typeof req.session.user != undefined){
+                console.error('Token invalido pero está logueado', error.message);
+                return res.status(401).render('profile',{user: req.session.user, message: 'Token invalido  pero está logueado!' })
+            }else{
+                return res.status(401).render('home',{ message: 'Token invalido, debe iniciar sesion para ver su perfil' })
+            }
+            
+          }
 
-        if (req.session.authenticate == false){
-            return res.render('login', {error: 'Intento de acceso no autorizado por url'});
-        }
-        await usersModel.getById(id, DB_connection, (err, results) => {
-            //no tiene que hacer otro token a menos que el usuario lo requiera.
-            //deberia buscar el token de una tabla de la BD y agregar el token a las variables de sesion
-            const token = jwt.sign({ userName: results[0].name }, process.env.SECRET_KEY, { expiresIn: 86400 });
+
+        await usersModel.getById(userId, DB_connection, (err, results) => {                    
+            
             if (!err){
                 console.log("encontre al usuario por id", results[0].name)
                 req.session.user = {
@@ -179,13 +183,12 @@ module.exports = {
                     id: results[0].id,
                     email: results[0].email,
                     password: results[0].password,
-                    token: token
+                    idToken: idToken
                 };       
-                req.session.authenticate = false;           
                 res.redirect('/api/users/profile');   
             }else{
                 console.log("error al buscar al usuario por id");
-                res.render('login', {error: 'error al buscar al usuario por id'});
+                res.render('login', {error: 'No se encontro al usuario'});
             }
             })
         //res.status(200).send(`iniciando sesion con id: ${id}`);
@@ -193,7 +196,7 @@ module.exports = {
       destroySession: (req, res) => {        
         console.log("Session destroyed successfully");
         req.session.user = undefined;
-        req.session.authenticate = false;
+        //req.session.authenticate = false;
         res.redirect('/');
     },
       

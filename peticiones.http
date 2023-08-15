@@ -43,8 +43,8 @@ Content-Type: application/json
 Content-Length: 89
 
 {
-    "name" : "pepes11123", 
-    "email" : "pepes112130@hotmail.com",
+    "name" : "lomas", 
+    "email" : "lomasaso@hotmail.com",
     "password" : "password",
     "roles_id" : 1,
     "photos_id" : 2,
