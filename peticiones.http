@@ -5,7 +5,7 @@ GET /api/users HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InBlcHVkbyIsImlhdCI6MTY5MTg0NzQyOCwiZXhwIjoxNjkxOTMzODI4fQ.Cqgs_CjflwayMj6gIZJ_wJr-D5jyFkeExLZoQT0CMbg
+Authorization: Bearer eyJhbGciOiJIUzI1NsisInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im1pY2hlbCIsImlhdCI6MTY5MjExMzQ0MSwiZXhwIjoxNjkyMTk5ODQxfQ.s8_gpUhcpx4zpVUZTvxw8g9rj1oyeOfagaSWQcJwbsc
 
 ###
 
@@ -43,8 +43,8 @@ Content-Type: application/json
 Content-Length: 89
 
 {
-    "name" : "lomas", 
-    "email" : "lomasaso@hotmail.com",
+    "name" : "lomas1", 
+    "email" : "lomasa1so@hotmail.com",
     "password" : "password",
     "roles_id" : 1,
     "photos_id" : 2,

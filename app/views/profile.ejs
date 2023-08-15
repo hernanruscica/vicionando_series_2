@@ -15,16 +15,16 @@
         <%- include('partials/headerVisitor') %>  
         <% } %>
      
-
+        <!--Deberia hacer algo con el acceso a la ruta api/users/profile porque si no tiene user de session, tira error-->
     <div class="container m-auto p-5">            
         <div class="w-100">
-            <h1>Este es el perfil de <%= user.name %></h1>
+            <h1 class="display-5">Perfil del usuario: <strong><i><%= user.name %></i></strong></h1>
             <% if (typeof message !== 'undefined') { %>
                 <p><%= message %></p>
               <% } %>
-            <p class="mb-5">Su Token para acceder a los endpoints y hacer consultas, se envio al correo <%= user.email %></p>
+            <p class="mb-5">Se envió un correo a <strong><%= user.email %></strong> con su token de acceso a los distintos endpoints.</p>
             <p class="mb-5" style="word-break: break-all;">Si quiere generar un <strong>token</strong> nuevo. Haga click en el botón </p>  
-            <button>Generar nuevo token</button>
+            <button class="btn btn-success">Generar nuevo token</button>
                        
         </div>
     </div>    

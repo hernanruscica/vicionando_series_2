@@ -78,7 +78,7 @@ module.exports = {
             if (!err){                
                     console.log("Se registró correctamente, se envia correo");
                     mail.sendWelcome(data, token);
-                    res.status(200).render('home', {message: `Se registró correctamente, se envió correo de confirmación a ${data.email}`});    
+                    res.status(200).render('home', {message: `Se registró correctamente, se envió su token al correo ${data.email}`});    
                     //res.redirect(`/api/users/session/${results.insertId}`);
                     //res.status(200).send({insertId: results.insertId})
             }else{                
@@ -166,7 +166,7 @@ module.exports = {
           } catch (error) {
             if (typeof req.session.user != undefined){
                 console.error('Token invalido pero está logueado', error.message);
-                return res.status(401).render('profile',{user: req.session.user, message: 'Token invalido  pero está logueado!' })
+                return res.status(401).render('profile',{user: req.session.user, message: 'Token invalido !' })
             }else{
                 return res.status(401).render('home',{ message: 'Token invalido, debe iniciar sesion para ver su perfil' })
             }

@@ -24,11 +24,11 @@ module.exports = {
                         <h1>ABM users API</h1>
                         <p>Hola <strong>${data.name}</strong>, bienvenido!</p>
                         <p>Se registro exitosamente en <strong>ABM users API</strong><br>
-                        Ahora puede <a href="${process.env.APP_URL}/api/users/login/">Ingresar a su perfil</a><br>
-                        Tambien puede aprender a usar la API <a href="${process.env.APP_URL}/api/info/">haciendo click aca.</a>
+                        Ahora puede <a href="${process.env.APP_URL}:3001/api/users/login/">Ingresar a su perfil</a><br>
+                        Tambien puede aprender a usar la API <a href="${process.env.APP_URL}:3001/api/info/">haciendo click aca.</a>
                         </p>
                         <p style="word-break: break-all;">
-                            <strong>Su Token es:  </strong><br>
+                            <strong>Su Token para acceder a la API es:  </strong><br>
                             ${token}
                         </p>
                     </div>
