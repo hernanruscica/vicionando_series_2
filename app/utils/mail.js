@@ -29,8 +29,12 @@ module.exports = {
                         </p>
                         <p style="word-break: break-all;">
                             <strong>Su Token para acceder a la API es:  </strong><br>
-                            ${token}
+                            ${token}                            
                         </p>
+                        <p>
+                            La misma expira en 24 Hs.
+                        </p>
+
                     </div>
                     `
             };    

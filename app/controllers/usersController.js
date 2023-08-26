@@ -66,7 +66,7 @@ module.exports = {
             const hashedPassword = await bcrypt.hash(data.password, saltRounds);
             console.log(hashedPassword);
             data.password = hashedPassword;
-            // Generar el token JWT y enviarlo como respuesta
+            // Generar el token JWT para acceso a los endpoints de la API, se envia por mail al registrarse
             token = jwt.sign({userName: data.name}, process.env.SECRET_KEY, {expiresIn: 86400});
             //res.send({token});
         }
@@ -140,6 +140,7 @@ module.exports = {
               const passwordMatch = await bcrypt.compare(password, user.password);
       
               if (passwordMatch) {     
+                //token para autenticar en el inicio de sesion solamente, y mostrar solo el perfil del usuario logueado, proteje rutas '/session/:idToken'
                 let idToken = jwt.sign({id: results[0].id}, process.env.SECRET_KEY, {expiresIn: 86400});
                 res.redirect(`/api/users/session/${idToken}`); 
               } else {
@@ -166,7 +167,7 @@ module.exports = {
           } catch (error) {
             if (typeof req.session.user != undefined){
                 console.error('Token invalido pero está logueado', error.message);
-                return res.status(401).render('profile',{user: req.session.user, message: 'Token invalido !' })
+                return res.status(401).render('profile',{user: req.session.user, message: 'Token invalido ! Solo puede ver su perfil' })
             }else{
                 return res.status(401).render('home',{ message: 'Token invalido, debe iniciar sesion para ver su perfil' })
             }
@@ -186,6 +187,7 @@ module.exports = {
                     idToken: idToken
                 };       
                 res.redirect('/api/users/profile');   
+                //return res.status(200).render('profile',{user: req.session.user, message: 'Bienvenido' }) 
             }else{
                 console.log("error al buscar al usuario por id");
                 res.render('login', {error: 'No se encontro al usuario'});

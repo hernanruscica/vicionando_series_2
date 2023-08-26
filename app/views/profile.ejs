@@ -11,23 +11,31 @@
 <body>
     <% if (typeof user !== 'undefined') { %>
         <%- include('partials/headerUser') %>  
-        <% } else { %>
-        <%- include('partials/headerVisitor') %>  
-        <% } %>
-     
-        <!--Deberia hacer algo con el acceso a la ruta api/users/profile porque si no tiene user de session, tira error-->
-    <div class="container m-auto p-5">            
-        <div class="w-100">
-            <h1 class="display-5">Perfil del usuario: <strong><i><%= user.name %></i></strong></h1>
-            <% if (typeof message !== 'undefined') { %>
-                <p><%= message %></p>
-              <% } %>
-            <p class="mb-5">Se envió un correo a <strong><%= user.email %></strong> con su token de acceso a los distintos endpoints.</p>
-            <p class="mb-5" style="word-break: break-all;">Si quiere generar un <strong>token</strong> nuevo. Haga click en el botón </p>  
-            <button class="btn btn-success">Generar nuevo token</button>
-                       
-        </div>
-    </div>    
+            <div class="container m-auto p-5">            
+                <div class="w-100">
+                    <h1 class="display-5">Perfil del usuario: <strong><i><%= user.name %></i></strong></h1>
+                    <% if (typeof message !== 'undefined') { %>
+                        <p><%= message %></p>
+                    <% } %>
+                    <h2 class="display-6">Tokens para los End Points</h2>
+                    <p class="mb-5">El dia dd/mm/aaaa a las hh:mm Hs. se registro al sitio y se envió un correo a <strong><%= user.email %></strong> con su token de acceso a los distintos <strong>End Points</strong>.<br>                 
+                        El ultimo token se generado manualmente fue el dia dd/mm/aaaa a las hh:mm Hs. y tambien se envio por mail.
+                    </p>
+                    <p class="mb-5" style="word-break: break-all;">Si quiere generar un <strong>token</strong> nuevo. Haga click en el botón. <em>(Todavia no disponible)</em> </p>              
+                    <button class="btn btn-success">Generar nuevo token</button>                       
+                </div>
+            </div>  
+    <% } else { %>        
+        <%- include('partials/headerVisitor') %>
+        <div class="container m-auto p-5">            
+            <div class="w-100">
+                <h1 class="display-5">Acceso <strong> No Autorizado</strong></h1>
+                <p>
+                    Bienvenido, usted no inicio sesion en la aplicacion,<br> puede <a class="btn btn-success" aria-current="page" href="/api/users/login">iniciar sesión</a> o <a class="btn btn-secondary" aria-current="page" href="/api/users/register">Registrarse</a> si todavia no lo hizo.
+                </p>                                   
+            </div>
+        </div>  
+    <% } %>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>

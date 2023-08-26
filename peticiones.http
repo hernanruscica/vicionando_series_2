@@ -5,7 +5,7 @@ GET /api/users HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
-Authorization: Bearer eyJhbGciOiJIUzI1NsisInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im1pY2hlbCIsImlhdCI6MTY5MjExMzQ0MSwiZXhwIjoxNjkyMTk5ODQxfQ.s8_gpUhcpx4zpVUZTvxw8g9rj1oyeOfagaSWQcJwbsc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIxLCJpYXQiOjE2OTMwNTYzODUsImV4cCI6MTY5MzE0Mjc4NX0.o_VNWSgOfQNYzIFQ-Crw5vZeTgCtjujpaHcHQkt6PBc
 
 ###
 
@@ -17,11 +17,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImNoZ
 
 ###
 
-GET /api/users/name/pepes HTTP/1.1
+GET /api/users/email/cesarhernanruscica@gmail.com HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InBlcHVkbyIsImlhdCI6MTY5MTg0NzQyOCwiZXhwIjoxNjkxOTMzODI4fQ.Cqgs_CjflwayMj6gIZJ_wJr-D5jyFkeExLZoQT0CMbg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTE2LCJpYXQiOjE2OTMwNTMzNzEsImV4cCI6MTY5MzEzOTc3MX0.ffT5kShp_dzzhYla0biRivpv-Trr1tGXm2C_VSVVJIM
 
 ###
 
