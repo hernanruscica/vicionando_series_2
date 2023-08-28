@@ -18,7 +18,7 @@ module.exports = {
         // Definir los detalles del correo electrónico
         let mailOptions = {
             from: 'info@ruscica-code.ar',
-            to: 'cesarhernanruscica@gmail.com',
+            to: 'cesarhernanruscica@gmail.com',//aca deberia ir data.email
             subject: 'Registrado - ABM users API',
             html: ` <div style="font-size: 1rem">
                         <h1>ABM users API</h1>
@@ -40,5 +40,43 @@ module.exports = {
             };    
         // Enviar el correo electrónico
         transporter.sendMail(mailOptions);
-    }   
+    },
+    sendToken: (data, token) => {
+        console.log("enviando mail")
+        // Configurar el servicio de correo electrónico
+        let transporter = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT,
+            secure: false,
+            auth: {                
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            },
+            tls : { rejectUnauthorized: false }
+        });    
+        // Definir los detalles del correo electrónico
+        let mailOptions = {
+            from: 'info@ruscica-code.ar',
+            to: 'cesarhernanruscica@gmail.com',//aca deberia ir data.email
+            subject: 'Nuevo Token - ABM users API',
+            html: ` <div style="font-size: 1rem">
+                        <h1>ABM users API</h1>
+                        <p>Hola <strong>${data.name}</strong> !</p>
+                        <p>Se registro su pedido de nuevo Token para consultas de <strong>ABM users API</strong><br>                        
+                        Puede aprender a usar la API <a href="${process.env.APP_URL}:3001/api/info/">haciendo click aca</a>.
+                        </p>
+                        <p style="word-break: break-all;">
+                            <strong>Su Token para acceder a la API es:  </strong><br>
+                            ${token}                            
+                        </p>
+                        <p>
+                            El mismo expira en 24 Hs.
+                        </p>
+
+                    </div>
+                    `
+            };    
+        // Enviar el correo electrónico
+        transporter.sendMail(mailOptions);
+    }      
 }

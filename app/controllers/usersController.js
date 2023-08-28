@@ -201,5 +201,21 @@ module.exports = {
         //req.session.authenticate = false;
         res.redirect('/');
     },
+    sendToken: (req, res) => {
+        if (req.session.user) {
+            try{
+                console.log(req.session.user);
+                let token = jwt.sign({userName: req.session.user.name}, process.env.SECRET_KEY, {expiresIn: 86400});
+                mail.sendToken(req.session.user, token);
+                res.status(200).render('profile', {user: req.session.user, message: `Se genero un nuevo token correctamente, se envió al correo ${req.session.user.email}`}); 
+            }catch (error){
+            console.error('Error generating and sending token JWT:', error);
+            }
+            
+        }else{
+            console.log('no esta logueado');
+            res.redirect('/api/users/login')
+        }
+    }
       
 }

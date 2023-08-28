@@ -18,6 +18,7 @@ router.get('/login', (req, res) => res.render('login', {error: ''}));
 router.get('/profile', (req, res) => res.render('profile', {error: (req.session.user == undefined) ? 'Acceso no Autorizado' : undefined, user:  req.session.user}));//le deberia pasar la variable de session del nombre de usuario
 router.get('/session/:idToken', usersController.setSession);
 router.get('/logout', usersController.destroySession);
+router.get('/token', usersController.sendToken);
 
 //READ - GET - SELECT all users
 router.get('/', authTools.verificarToken, usersController.getAllUsers);

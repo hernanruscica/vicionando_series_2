@@ -21,8 +21,8 @@
                     <p class="mb-5">El dia dd/mm/aaaa a las hh:mm Hs. se registro al sitio y se envió un correo a <strong><%= user.email %></strong> con su token de acceso a los distintos <strong>End Points</strong>.<br>                 
                         El ultimo token se generado manualmente fue el dia dd/mm/aaaa a las hh:mm Hs. y tambien se envio por mail.
                     </p>
-                    <p class="mb-5" style="word-break: break-all;">Si quiere generar un <strong>token</strong> nuevo. Haga click en el botón. <em>(Todavia no disponible)</em> </p>              
-                    <button class="btn btn-success">Generar nuevo token</button>                       
+                    <p class="mb-5" style="word-break: break-all;">Si quiere generar un <strong>token</strong> nuevo. Haga click en el botón.  </p>              
+                    <a href="/api/users/token" class="btn btn-success">Generar nuevo token</a >                       
                 </div>
             </div>  
     <% } else { %>        
