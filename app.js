@@ -21,8 +21,8 @@ const handle404 = (req, res, next) => {
 };
 
 const indexRouter = require('./app/routes/indexRoutes');
-const usersRouter = require('./app/routes/usersRoutes');
-const trackedShowsRouter = require('./app/routes/trackedShowsRoutes');
+const usersRouter = require('./app/routes/usersRoutes_2');
+//const trackedShowsRouter = require('./app/routes/trackedShowsRoutes');
 
 
 const hostName = "localhost"
@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/tracked-shows', trackedShowsRouter);
+//app.use('/api/tracked-shows', trackedShowsRouter);
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static('./public'));
 

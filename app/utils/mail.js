@@ -43,17 +43,7 @@ module.exports = {
     },
     sendToken: (data, token) => {
         console.log("enviando mail")
-        // Configurar el servicio de correo electrónico
-        let transporter = nodemailer.createTransport({
-            host: process.env.EMAIL_HOST,
-            port: process.env.EMAIL_PORT,
-            secure: false,
-            auth: {                
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            },
-            tls : { rejectUnauthorized: false }
-        });    
+        
         // Definir los detalles del correo electrónico
         let mailOptions = {
             from: 'info@ruscica-code.ar',
@@ -77,6 +67,29 @@ module.exports = {
                     `
             };    
         // Enviar el correo electrónico
-        transporter.sendMail(mailOptions);
+        try {
+            // Configurar el servicio de correo electrónico
+            let transporter = nodemailer.createTransport({
+                host: process.env.EMAIL_HOST ,
+                port: process.env.EMAIL_PORT,
+                secure: false,
+                auth: {                
+                    user: process.env.EMAIL_USER,
+                    pass: process.env.EMAIL_PASS
+                },
+                tls : { rejectUnauthorized: false }
+            });
+        
+            transporter.sendMail(mailOptions);
+        } catch (error) {
+            console.error('Error sending email with the token', error);
+        }
+        
+        // Captura excepciones no manejadas globalmente
+        process.on('uncaughtException', (err) => {
+            console.error('Uncaught Exception:', err);
+            // Puedes realizar acciones adicionales aquí, como cerrar el servidor o registrar el error.
+        });
+        
     }      
 }

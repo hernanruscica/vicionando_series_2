@@ -85,3 +85,10 @@ GET /api/users/register HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
+
+### Prueba con el host cyclic
+GET /api/users HTTP/1.1
+Host: localhost:3001
+Content-Type: application/json
+Content-Length: 89
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im5pY28iLCJpYXQiOjE2OTMyNjYwNDgsImV4cCI6MTY5MzM1MjQ0OH0.BM0Uxgf7mVM9DnEqt_GZJ5qVRbtkhIH7Hbszn9XofI8
