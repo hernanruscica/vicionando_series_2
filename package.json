@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "- Quiero poder registrarme en el sitio - Quiero poder ingresar al sitio - Quiero poder editar mi perfil - Quiero poder personalizar la interfaz de usuario - Quiero poder agregar una nueva serie para seguir - Quiero poder tener mas informacion sobre la serie que agrego mediante una API - Quiero poder agregar comentarios personalizados sobre la serie que agrego - Quiero poder avanzar y/o retroceder en el vicionado de una serie - Quiero poder saber porque episodio voy - Quiero poder guardar las fuentes de videos de mis vicionados - Quiero poder dar por finalizado el vicionado de una serie - Quiero poder eliminar el registro de vicionado de una serie - Quiero poder ver estadisticas sobre mis vicionados, en cantidad, tiempo y frecuencia",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+  "scripts": {    
     "dev": "nodemon app.js"
   },
   "keywords": [],
