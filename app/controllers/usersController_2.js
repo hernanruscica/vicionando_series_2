@@ -5,34 +5,33 @@ const usersModel = require('../models/usersModel_2');
 const mail = require('../utils/mail');
 
 
-module.exports = {/*
-    getAllUsers: (req, res) => {
+module.exports = {
+    getAllUsers: async (req, res) => {
         // RESPONSE CODES TO USE 200 (OK) - 404 (NOT FOUND)
-        
-        usersModel.getAll(DB_connection, (err, results) => {
-            console.log('getAll');    
-            if (!err){
-                res.status(200).json({message: 'Results', results: results});        
-            }else{
-                res.status(404).json({message: 'DB Error', results: results});
-            }        
-        });               
+        try{
+            console.log('getAll'); 
+            let results = usersModel.getAll();
+            return res.status(200).json({message: 'Results', results: results}); 
+        }catch (error){
+            return res.status(404).json({message: `DB ERROR: ${error}`, results: results});
+        }             
     },
-    getUserByField: (req, res) => { 
+    getUserByField: async (req, res) => { 
         let field = req.params.field;       
         let value = req.params.value;
-        usersModel.getByField(field, value, DB_connection, (err, results) => {
-            if (!err){
-                if (results.length > 0){
-                    res.status(200).json({message: 'OK', results: results});        
-                }else{
-                    res.status(404).json({message: 'Not Found', results: results});        
-                }                
+        try{
+            console.log('getAll'); 
+            let results = usersModel.getByField(field, value);            
+            if (results.length > 0){
+                return res.status(200).json({message: 'Results', results: results})        
             }else{
-                res.status(404).json({message: 'DB Error', results: results});
-            }   
-        })
-    },
+                res.status(404).json({message: 'Not Found', results: results});        
+            }     
+        }catch (error){
+            return res.status(404).json({message: `DB ERROR: ${error}`, results: results});
+        }  
+        
+    },/*
     
     insertUser: async (req, res) => {        
         data = {

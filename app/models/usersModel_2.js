@@ -15,20 +15,44 @@ const pool = mysql2.createPool({
 
 
 module.exports = {
-    /*
-    getAll: (conn, myFunction) => {
-        conn.query(`SELECT * FROM users`, myFunction);
+    
+    getAll: async () => {
+        //conn.query(`SELECT * FROM users`, myFunction);
+        const connection = await pool.getConnection();
+        console.log("abierta la conexion con el pool de datos - getAll");
+        try {
+            const [rows, fields] = await connection.execute(`SELECT * FROM users`);            
+            return rows;
+        }catch (error){
+            console.error(error);
+            return res.status(500).send({ error: 'error con el pool de datos' });
+        } finally {
+            connection.release(); // Liberar la conexión de vuelta al pool cuando hayas terminado
+            console.log("cerrada la conexion con el pool de datos");
+        }
     },
-    getByField: (field, value, conn, myFunction) => {
-        conn.query(`SELECT * FROM users WHERE ${field} LIKE '%${value}%'`, myFunction);
-    },*/
+    getByField: async (field, value) => {
+        //conn.query(`SELECT * FROM users WHERE ${field} LIKE '%${value}%'`, myFunction);
+        const connection = await pool.getConnection();        
+        console.log("abierta la conexion con el pool de datos - getByField");
+        try {
+            const [rows, fields] = await connection.execute(`SELECT * FROM users WHERE ${field} LIKE '%${value}%'`);            
+            return rows;
+        }catch (error){
+            console.error(error);
+            return res.status(500).send({ error: 'error con el pool de datos' });
+        } finally {
+            connection.release(); // Liberar la conexión de vuelta al pool cuando hayas terminado
+            console.log("cerrada la conexion con el pool de datos");
+        }
+
+    },/**/
     getByFieldStrict: async (field, value) => {
         //conn.query(`SELECT * FROM users WHERE ${field} = '${value}'`, myFunction);
         const connection = await pool.getConnection();
         console.log("abierta la conexion con el pool de datos - getByFieldStrict");
         try {
-            const [rows, fields] = await connection.execute(`SELECT * FROM users WHERE ${field} = '${value}'`);
-            
+            const [rows, fields] = await connection.execute(`SELECT * FROM users WHERE ${field} = '${value}'`);            
             return rows;
         }catch (error){
             console.error(error);
