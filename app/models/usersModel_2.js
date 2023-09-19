@@ -22,10 +22,11 @@ module.exports = {
         console.log("abierta la conexion con el pool de datos - getAll");
         try {
             const [rows, fields] = await connection.execute(`SELECT * FROM users`);            
+            //console.log(rows)
             return rows;
         }catch (error){
-            console.error(error);
-            return res.status(500).send({ error: 'error con el pool de datos' });
+            //console.error(error);
+            throw error;
         } finally {
             connection.release(); // Liberar la conexión de vuelta al pool cuando hayas terminado
             console.log("cerrada la conexion con el pool de datos");
@@ -39,8 +40,8 @@ module.exports = {
             const [rows, fields] = await connection.execute(`SELECT * FROM users WHERE ${field} LIKE '%${value}%'`);            
             return rows;
         }catch (error){
-            console.error(error);
-            return res.status(500).send({ error: 'error con el pool de datos' });
+            //console.error(error);
+            throw error;
         } finally {
             connection.release(); // Liberar la conexión de vuelta al pool cuando hayas terminado
             console.log("cerrada la conexion con el pool de datos");
@@ -55,8 +56,8 @@ module.exports = {
             const [rows, fields] = await connection.execute(`SELECT * FROM users WHERE ${field} = '${value}'`);            
             return rows;
         }catch (error){
-            console.error(error);
-            return res.status(500).send({ error: 'error con el pool de datos' });
+            //console.error(error);
+            throw error;
         } finally {
             connection.release(); // Liberar la conexión de vuelta al pool cuando hayas terminado
             console.log("cerrada la conexion con el pool de datos");
@@ -70,16 +71,31 @@ module.exports = {
         try {
             const [rows, fields] = await connection.execute(`SELECT * FROM users WHERE id = '${id}'`);
             return rows;
+        } catch (error){
+            //console.error(error);
+            throw error;
         } finally {
             connection.release(); // Liberar la conexión de vuelta al pool cuando hayas terminado
             console.log("cerrada la conexion con el pool de datos");
         }
-    }
-    /*,
-    insert: (data, conn, myFunction) => {
-        conn.query(`INSERT INTO users (name, email, password, roles_id, photos_id, real_name, birthday, palettes_id) 
-        VALUES ('${data.name}', '${data.email}', '${data.password}', ${data.roles_id}, ${data.photos_id}, '${data.real_name}', '${data.birthday}', ${data.palettes_id})`, myFunction)
     },
+    insert: async (data) => {        
+        const connection = await pool.getConnection();
+        console.log("abierta la conexion con el pool de datos - insert");
+
+        try {
+            const [rows, fields] = await connection.execute(`INSERT INTO users (name, email, password, roles_id, photos_id, real_name, birthday, palettes_id)         
+            VALUES ('${data.name}', '${data.email}', '${data.password}', ${data.roles_id}, ${data.photos_id}, '${data.real_name}', '${data.birthday}', ${data.palettes_id})`);
+            console.log(`Rows affeted: ${rows.affectedRows}`);
+            return rows;
+        } catch (error){
+            //console.error(error);            
+            throw error;
+        } finally {
+            connection.release(); // Liberar la conexión de vuelta al pool cuando hayas terminado
+            console.log("cerrada la conexion con el pool de datos");
+        }
+    }/*,
     update: (data, id, conn, myFunction) => {
         conn.query(`UPDATE users SET 
                     name = '${data.name}', 
@@ -91,8 +107,22 @@ module.exports = {
                     birthday = '${data.birthday}', 
                     palettes_id = ${data.palettes_id}
         WHERE id = ${id};`, myFunction)
-    },
-    delete: (id, conn, myFunction) => {
-        conn.query(`DELETE FROM users WHERE id = ${id};`, myFunction)
-    }*/
+    }*/,
+    delete: async (id) => {
+        //conn.query(`DELETE FROM users WHERE id = ${id};`, myFunction)
+        const connection = await pool.getConnection();
+        console.log("abierta la conexion con el pool de datos - insert");
+
+        try {
+            const [rows] = await connection.execute(`DELETE FROM users WHERE id = ${id};`);
+            console.log(`Rows affeted: ${rows.affectedRows}`);
+            return rows;
+        } catch (error){
+            //console.error(error);            
+            throw error;
+        } finally {
+            connection.release(); // Liberar la conexión de vuelta al pool cuando hayas terminado
+            console.log("cerrada la conexion con el pool de datos");
+        }
+    }
 }

@@ -10,18 +10,18 @@ module.exports = {
         // RESPONSE CODES TO USE 200 (OK) - 404 (NOT FOUND)
         try{
             console.log('getAll'); 
-            let results = usersModel.getAll();
+            let results = await usersModel.getAll();                
             return res.status(200).json({message: 'Results', results: results}); 
         }catch (error){
-            return res.status(404).json({message: `DB ERROR: ${error}`, results: results});
+            return res.status(404).json({message: `DB ERROR: ${error}`, results: {nombre: 'pepe'}});
         }             
     },
     getUserByField: async (req, res) => { 
         let field = req.params.field;       
         let value = req.params.value;
         try{
-            console.log('getAll'); 
-            let results = usersModel.getByField(field, value);            
+            console.log('getUserByField'); 
+            let results = await usersModel.getByField(field, value);            
             if (results.length > 0){
                 return res.status(200).json({message: 'Results', results: results})        
             }else{
@@ -31,7 +31,7 @@ module.exports = {
             return res.status(404).json({message: `DB ERROR: ${error}`, results: results});
         }  
         
-    },/*
+    },
     
     insertUser: async (req, res) => {        
         data = {
@@ -54,28 +54,30 @@ module.exports = {
             // Generar el token JWT para acceso a los endpoints de la API, se envia por mail al registrarse
             token = jwt.sign({userName: data.name}, process.env.SECRET_KEY, {expiresIn: 86400});
             //res.send({token});
-        }
+            }
         catch (error){
             console.error('Error generating the token JWT:', error);
             res.status(500).json({ message: 'Error generating the token JWT'});
-        }
-         await usersModel.insert(data, DB_connection, (err, results) => {                    
-            if (!err){                
-                    console.log("Se registró correctamente, se envia correo");
-                    mail.sendWelcome(data, token);
-                    res.status(200).render('home', {message: `Se registró correctamente, se envió su token al correo ${data.email}`});    
-                    //res.redirect(`/api/users/session/${results.insertId}`);
-                    //res.status(200).send({insertId: results.insertId})
-            }else{                
-                if (err.code == 'ER_DUP_ENTRY'){                    
-                    res.status(409).render('home', {message: `Ya existe un usuario con ese nombre de usuario o correo registrado en el sitio` });                    
-                }else {
-                    res.status(500).render('home', {message: `Ocurrió un error al insertar el usuario en la base de datos` });                    
-                    //console.log(err)
-                }
-            }      
+            }   
+
+        usersModel.insert(data)
+        .then((results) => {
+            // Realizar acciones de éxito aquí si es necesario                    
+            console.log("Inserción exitosa:", results);
+            mail.sendWelcome(data, token);
+            res.status(200).render('home', {message: `Se registró correctamente, se envió su token al correo ${data.email}`});
         })
-    },
+        .catch((error) => {
+            // Manejar el error y enviar una respuesta HTTP aquí
+            console.error("Error en la inserción:");
+            if (error.code == 'ER_DUP_ENTRY'){                    
+                res.status(409).render('home', {message: `Ya existe un usuario con ese nombre de usuario o correo registrado en el sitio` });                    
+            }else {
+                res.status(500).render('home', {message: `Ocurrió un error al insertar el usuario en la base de datos` });                    
+                console.log(err)
+            }                    
+        });
+    },/*
     updateUser: async (req, res) => {                
         const {id} = req.params;
         let data = req.body;    
@@ -91,42 +93,44 @@ module.exports = {
                 res.status(500).json({message: 'Error updating user', results: err});
             }
         })
-    },
-    deleteUser: async (req, res) => {
-           
+    }, */
+    deleteUser: async (req, res) => {           
         const { id  } = req.params;      
-        await usersModel.delete(id, DB_connection, (err, results) => {
-            if (!err){
+        usersModel.delete(id)
+            .then((results) => {
                 if (results.affectedRows > 0){
-                    res.status(200).json({message: 'OK', results: results});     
+                    res.status(200).json({message: 'DELETED', results: results});     
                 }else {
                     res.status(409).json({message: "User doesn't exists", results: results});
                 }                 
-            }else{                
-                res.status(500).json({message: 'Error deleting user', results: err});
-            }
         })
+            .catch((error) => {
+                res.status(500).json({message: 'Error deleting user', results: err});
+            })       
     },
-    */
+   
     getUserById: async (req, res) => {
         let id = req.params.id;
-        //console.log(req.params.userName)  //if necesary you could return the user name in the response      
-        usersModel.getById(id, (err, results) => {
-            if (!err){
-                if (results.length > 0){
-                    res.status(200).json({message: 'OK', results: results});        
-                }else{
-                    res.status(404).json({message: 'Not Found', results: results});        
-                }                
+        console.log("searching by id: ", id)    
+        try {
+            const results = await usersModel.getById(id);
+            if (results.length > 0) {                
+                const user = results[0];  
+                return res.status(200).json({message: 'OK', results: user});
             }else{
-                res.status(404).json({message: 'DB Error', results: results});
-            }   
-        })
+                return res.status(404).json({message: 'Not Found', results: results});
+            }
+
+        } catch (error){
+            console.error(error);
+            return res.status(500).send({ error: 'Internal Server Error' });
+        }            
+               
     },
     authenticate: async (req, res) => {
         const userName = req.body.username;
         const password = req.body.password;
-        console.log("authenticating ", userName, password)        
+        console.log("authenticating ", userName, password);        
         
         try {
             const results = await usersModel.getByFieldStrict('name', userName); 

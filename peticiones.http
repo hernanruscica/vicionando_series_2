@@ -5,23 +5,23 @@ GET /api/users HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im5pY28iLCJpYXQiOjE2OTMyNjYwNDgsImV4cCI6MTY5MzM1MjQ0OH0.BM0Uxgf7mVM9DnEqt_GZJ5qVRbtkhIH7Hbszn9XofI8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im5pY28iLCJpYXQiOjE2OTUxMzkzMzEsImV4cCI6MTY5NTIyNTczMX0.R_qtiUCiDTqgddc2aJlcXAtYfAPPZ77gq9qoD8E7euA
 
 ###
 
-GET /api/users/1 HTTP/1.1
+GET /api/users/3 HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImNoZXJuYW4iLCJpYXQiOjE2OTE1MTk3MzcsImV4cCI6MTY5MTYwNjEzN30.LjYYAtwFxREbSJoLGy8gNGdCEEXCtgKlZSVNMVH7fnI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im5pY28iLCJpYXQiOjE2OTUxMzkzMzEsImV4cCI6MTY5NTIyNTczMX0.R_qtiUCiDTqgddc2aJlcXAtYfAPPZ77gq9qoD8E7euA
 
 ###
 
-GET /api/users/email/cesarhernanruscica@gmail.com HTTP/1.1
+GET /api/users/name/nico HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
 Content-Length: 89
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTE2LCJpYXQiOjE2OTMwNTMzNzEsImV4cCI6MTY5MzEzOTc3MX0.ffT5kShp_dzzhYla0biRivpv-Trr1tGXm2C_VSVVJIM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im5pY28iLCJpYXQiOjE2OTUxMzkzMzEsImV4cCI6MTY5NTIyNTczMX0.R_qtiUCiDTqgddc2aJlcXAtYfAPPZ77gq9qoD8E7euA
 
 ###
 
@@ -43,8 +43,8 @@ Content-Type: application/json
 Content-Length: 89
 
 {
-    "name" : "lomas1", 
-    "email" : "lomasa1so@hotmail.com",
+    "name" : "lomads1313", 
+    "email" : "lomadsa13s31o@hotmail.com",
     "password" : "password",
     "roles_id" : 1,
     "photos_id" : 2,
@@ -74,10 +74,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJhe
 
 ####
 
-DELETE /api/users/144 HTTP/1.1
+DELETE /api/users/3 HTTP/1.1
 Host: localhost:3001
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InBlcHVkbyIsImlhdCI6MTY5MTg0NzQyOCwiZXhwIjoxNjkxOTMzODI4fQ.Cqgs_CjflwayMj6gIZJ_wJr-D5jyFkeExLZoQT0CMbg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im5pY28iLCJpYXQiOjE2OTUxMzkzMzEsImV4cCI6MTY5NTIyNTczMX0.R_qtiUCiDTqgddc2aJlcXAtYfAPPZ77gq9qoD8E7euA
 
 ####
 
