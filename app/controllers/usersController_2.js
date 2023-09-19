@@ -60,7 +60,7 @@ module.exports = {
             res.status(500).json({ message: 'Error generating the token JWT'});
             }   
 
-        usersModel.insert(data)
+        await usersModel.insert(data)
         .then((results) => {
             // Realizar acciones de éxito aquí si es necesario                    
             console.log("Inserción exitosa:", results);
@@ -77,23 +77,34 @@ module.exports = {
                 console.log(err)
             }                    
         });
-    },/*
+    },
     updateUser: async (req, res) => {                
         const {id} = req.params;
-        let data = req.body;    
+        let data = req.body;  
         
-        await usersModel.update(data, id, DB_connection, (err, results) => {
-            if (!err){
-                if (results.affectedRows > 0){
-                    res.status(200).json({message: 'OK', results: results});     
-                }else {
-                    res.status(409).json({message: "User doesn't exists", results: results});
-                }   
+        await usersModel.update(data, id)
+        .then((results) => {
+            // Realizar acciones de éxito aquí si es necesario    
+            if (results.affectedRows > 0){
+                console.log("El registro se actualizo correctamente:", results);                        
+                return res.status(200).render('profile',{user: req.session.user, message: `El registro se actualizo correctamente` })                
+                //return res.json({message: `El registro se actualizo correctamente`,results: data });
             }else{
-                res.status(500).json({message: 'Error updating user', results: err});
-            }
+                return res.status(409).render('profile',{ message: "User doesn't exists", results: results});
+            }       
+            
         })
-    }, */
+        .catch((error) => {
+            // Manejar el error y enviar una respuesta HTTP aquí
+            console.error("Error en la actualizacion del registro:");
+            if (error.code == 'ER_DUP_ENTRY'){                    
+                return res.status(409).render('profile', {message: `Ya existe un usuario con ese nombre de usuario o correo registrado en el sitio` });                    
+            }else {
+                res.status(500).render('profile', {message: `Ocurrió un error al insertar el usuario en la base de datos` });                    
+                return console.log(err)
+            }                    
+        });
+    }, 
     deleteUser: async (req, res) => {           
         const { id  } = req.params;      
         usersModel.delete(id)

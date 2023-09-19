@@ -30,9 +30,8 @@ router.get('/:id', authTools.verificarToken, usersController.getUserById);
 router.get('/:field/:value', authTools.verificarToken, usersController.getUserByField);
 
 
-
 //UPDATE - PATCH - UPDATE by id
-//router.patch('/:id', authTools.verificarToken, usersController.updateUser);
+router.patch('/:id', authTools.verificarToken, usersController.updateUser);
 
 //DELETE - DELETE - DELETE by id
 router.delete('/:id', authTools.verificarToken, usersController.deleteUser);

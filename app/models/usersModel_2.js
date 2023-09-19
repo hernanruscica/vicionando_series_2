@@ -95,19 +95,31 @@ module.exports = {
             connection.release(); // Liberar la conexión de vuelta al pool cuando hayas terminado
             console.log("cerrada la conexion con el pool de datos");
         }
-    }/*,
-    update: (data, id, conn, myFunction) => {
-        conn.query(`UPDATE users SET 
-                    name = '${data.name}', 
-                    email = '${data.email}',
-                    password = '${data.password}',
-                    roles_id = ${data.roles_id},
-                    photos_id = ${data.photos_id},
-                    real_name= '${data.real_name}',  
-                    birthday = '${data.birthday}', 
-                    palettes_id = ${data.palettes_id}
-        WHERE id = ${id};`, myFunction)
-    }*/,
+    },
+    update: async (data, id) => {        
+        const connection = await pool.getConnection();
+        console.log("abierta la conexion con el pool de datos - insert");
+        try {
+            const [rows, fields] = await connection.execute(`UPDATE users SET 
+                        name = '${data.name}', 
+                        email = '${data.email}',
+                        password = '${data.password}',
+                        roles_id = ${data.roles_id},
+                        photos_id = ${data.photos_id},
+                        real_name= '${data.real_name}',  
+                        birthday = '${data.birthday}', 
+                        palettes_id = ${data.palettes_id}
+            WHERE id = ${id};`);
+            console.log(`Rows affeted: ${rows.affectedRows}`);
+            return rows;
+        } catch (error){
+            //console.error(error);            
+            throw error;
+        } finally {
+            connection.release(); // Liberar la conexión de vuelta al pool cuando hayas terminado
+            console.log("cerrada la conexion con el pool de datos");
+        }
+    },
     delete: async (id) => {
         //conn.query(`DELETE FROM users WHERE id = ${id};`, myFunction)
         const connection = await pool.getConnection();
