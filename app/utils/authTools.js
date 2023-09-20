@@ -8,14 +8,15 @@ module.exports = {
   
     if (!token) {
         console.log('Token no proporcionado');
-      return res.status(401).render('profile',{user: req.session.user, message: 'Token no proporcionado' });      
+        return res.status(401).json({ message: 'Token no proporcionado' });
+        //return res.status(401).render('profile',{user: req.session.user, message: 'Token no proporcionado' });              
     }
   
     jwt.verify(token.split(' ')[1], secretKey, (err, decoded) => {
       if (err) {
         console.log('Token inválido');
-        //return res.status(401).json({ message: 'Token inválido' });
-        return res.status(401).render('profile',{user: req.session.user, message: 'Token no valido' });
+        return res.status(401).json({ message: 'Token inválido' });
+        //return res.status(401).render('profile',{user: req.session.user, message: 'Token no valido' });
       }else{
         console.log(decoded);
       }  

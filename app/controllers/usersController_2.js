@@ -3,7 +3,7 @@ const bcrypt  = require('bcryptjs');
 //const DB_connection = require('../models/connection_db_2');
 const usersModel = require('../models/usersModel_2');
 const mail = require('../utils/mail');
-
+const saltRounds = 10; // Número de saltos para el hash bcrypt
 
 module.exports = {
     getAllUsers: async (req, res) => {
@@ -11,7 +11,7 @@ module.exports = {
         try{
             console.log('getAll'); 
             let results = await usersModel.getAll();                
-            return res.status(200).json({message: 'Results', results: results}); 
+            return res.status(200).json({message: 'Ok', results: results}); 
         }catch (error){
             return res.status(404).json({message: `DB ERROR: ${error}`, results: {nombre: 'pepe'}});
         }             
@@ -23,9 +23,9 @@ module.exports = {
             console.log('getUserByField'); 
             let results = await usersModel.getByField(field, value);            
             if (results.length > 0){
-                return res.status(200).json({message: 'Results', results: results})        
+                return res.status(200).json({message: 'Ok', results: results})        
             }else{
-                res.status(404).json({message: 'Not Found', results: results});        
+                return res.status(404).json({message: 'Not Found', results: results});        
             }     
         }catch (error){
             return res.status(404).json({message: `DB ERROR: ${error}`, results: results});
@@ -45,7 +45,7 @@ module.exports = {
             palettes_id : 1
         }          
         let token = null;
-        const saltRounds = 10; // Número de saltos para el hash bcrypt
+        
         //console.log(data.password);        
         try{
             const hashedPassword = await bcrypt.hash(data.password, saltRounds);
@@ -62,45 +62,58 @@ module.exports = {
 
         await usersModel.insert(data)
         .then((results) => {
-            // Realizar acciones de éxito aquí si es necesario                    
-            console.log("Inserción exitosa:", results);
-            mail.sendWelcome(data, token);
-            res.status(200).render('home', {message: `Se registró correctamente, se envió su token al correo ${data.email}`});
+            // Realizar acciones de éxito aquí si es necesario          
+            if (results.affectedRows > 0){
+                delete data.password;
+                console.log("Inserción exitosa:");
+                mail.sendWelcome(data, token);
+                return res.status(200).json({message: 'Ok', results: data});
+                //res.status(200).render('home', {message: `Se registró correctamente, se envió su token al correo ${data.email}`});
+            }
         })
         .catch((error) => {
             // Manejar el error y enviar una respuesta HTTP aquí
-            console.error("Error en la inserción:");
+            console.error(`Error en la inserción: ${error.code}`);
             if (error.code == 'ER_DUP_ENTRY'){                    
-                res.status(409).render('home', {message: `Ya existe un usuario con ese nombre de usuario o correo registrado en el sitio` });                    
+                res.status(409).json({message: 'Conflict', results: 'No se inserto correctamente, atributos unicos, ya insertados en la tabla.'});
+                //res.status(409).render('home', {message: `Ya existe un usuario con ese nombre de usuario o correo registrado en el sitio` });                    
             }else {
-                res.status(500).render('home', {message: `Ocurrió un error al insertar el usuario en la base de datos` });                    
-                console.log(err)
+                res.status(500).json({message: 'Error', results: 'Error al insertar el registro en la tabla de la Base de datos'});
+                //res.status(500).render('home', {message: `Ocurrió un error al insertar el usuario en la base de datos` });                                    
             }                    
         });
     },
     updateUser: async (req, res) => {                
         const {id} = req.params;
         let data = req.body;  
+
+        const hashedPassword = await bcrypt.hash( data.password, saltRounds);
+        console.log(hashedPassword);
+        data.password = hashedPassword;
         
         await usersModel.update(data, id)
         .then((results) => {
             // Realizar acciones de éxito aquí si es necesario    
             if (results.affectedRows > 0){
-                console.log("El registro se actualizo correctamente:", results);                        
-                return res.status(200).render('profile',{user: req.session.user, message: `El registro se actualizo correctamente` })                
-                //return res.json({message: `El registro se actualizo correctamente`,results: data });
+                console.log("El registro se actualizo correctamente:", data);      
+                delete data.password;                  
+                //return res.status(200).render('profile',{user: req.session.user, message: `El registro se actualizo correctamente` })                
+                return res.status(200).json({message: 'Ok', results: data });
             }else{
-                return res.status(409).render('profile',{ message: "User doesn't exists", results: results});
-            }       
-            
+                console.log("Registro no encontrado", data);     
+                return res.status(404).json({message: 'Not found', results: data})
+                //return res.status(409).render('profile',{ message: "User doesn't exists", results: results});
+            }   
         })
         .catch((error) => {
             // Manejar el error y enviar una respuesta HTTP aquí
-            console.error("Error en la actualizacion del registro:");
+            console.error(`Error en la actualizacion del registro: ${error.code}`);
             if (error.code == 'ER_DUP_ENTRY'){                    
-                return res.status(409).render('profile', {message: `Ya existe un usuario con ese nombre de usuario o correo registrado en el sitio` });                    
+                return res.status(409).json({message: 'Conflict', results: data});
+                //return res.status(409).render('profile', {message: `Ya existe un usuario con ese nombre de usuario o correo registrado en el sitio` });                    
             }else {
-                res.status(500).render('profile', {message: `Ocurrió un error al insertar el usuario en la base de datos` });                    
+                return res.status(500).json({message: 'Error', results: 'Ocurrió un error al actualizar el registro en la tabla de la Base de datos'});
+                //res.status(500).render('profile', {message: `Ocurrió un error al actualizar el usuario en la base de datos` });                    
                 return console.log(err)
             }                    
         });
@@ -110,13 +123,16 @@ module.exports = {
         usersModel.delete(id)
             .then((results) => {
                 if (results.affectedRows > 0){
-                    res.status(200).json({message: 'DELETED', results: results});     
+                    console.log(`Eliminado el registro con id: ${id}`);
+                    return res.status(200).json({message: 'Ok', results: `Eliminado el registro con id: ${id}`});     
                 }else {
-                    res.status(409).json({message: "User doesn't exists", results: results});
+                    console.log(`No se encontro el registro con id: ${id}`);
+                    return res.status(404).json({message: "Not found", results: `No se encontro el registro con id: ${id}`});
                 }                 
         })
             .catch((error) => {
-                res.status(500).json({message: 'Error deleting user', results: err});
+                console.log(`Error al eliminar registro en la bd, error: ${error.code}`);
+                return res.status(500).json({message: 'Error', results: `Error al eliminar registro en la bd, error: ${error.code}`});
             })       
     },
    
@@ -127,7 +143,7 @@ module.exports = {
             const results = await usersModel.getById(id);
             if (results.length > 0) {                
                 const user = results[0];  
-                return res.status(200).json({message: 'OK', results: user});
+                return res.status(200).json({message: 'Ok', results: user});
             }else{
                 return res.status(404).json({message: 'Not Found', results: results});
             }
@@ -146,26 +162,40 @@ module.exports = {
         try {
             const results = await usersModel.getByFieldStrict('name', userName); 
             
-            if (results.length > 0) {                
-                const user = results[0];             
-        
+            if (results.length > 0) {                                  
+                const user = {
+                    id: results[0].id,
+                    name: results[0].name,
+                    email: results[0].email,
+                    roles_id: results[0].roles_id,
+                    real_name: results[0].real_name,
+                    birthday: results[0].birthday,
+                    palettes_id: results[0].palettes_id,
+                    photos_id: results[0].photos_id
+                  };
+
                 // Verificar la contraseña utilizando bcrypt
-                const passwordMatch = await bcrypt.compare(password, user.password);
+                const passwordMatch = await bcrypt.compare(password, results[0].password);
         
                 if (passwordMatch) {     
-                //token para autenticar en el inicio de sesion solamente, y mostrar solo el perfil del usuario logueado, proteje rutas '/session/:idToken'
-                let idToken = jwt.sign({id: results[0].id}, process.env.SECRET_KEY, {expiresIn: 86400});
-                res.redirect(`/api/users/session/${idToken}`); 
+                    //token para autenticar en el inicio de sesion solamente, y mostrar solo el perfil del usuario logueado, proteje rutas '/session/:idToken'
+                    //let idToken = jwt.sign({id: results[0].id}, process.env.SECRET_KEY, {expiresIn: 86400});
+                    //res.redirect(`/api/users/session/${idToken}`); 
+                    return res.status(200).json({message: 'Ok', results: user});
                 } else {
-                return res.status(401).render('login', { error: 'Invalid credentials' });
+                    //return res.status(401).render('login', { error: 'Invalid credentials' });
+                    console.log(`Credenciales invalidas para user: ${userName} y pass: ${password}`);
+                    return res.status(401).json({message: 'Unauthorized', results: `Credenciales invalidas para user: ${userName} y pass: ${password}`});
                 }
             } else {
-                return res.status(401).render('login',{ error: 'Invalid credentials' });
+                //return res.status(401).render('login',{ error: 'Invalid credentials' });
+                console.log(`Credenciales invalidas para user: ${userName} y pass: ${password}`);
+                return res.status(404).json({message: 'Not Found', results: `User: ${userName} no encontrado`});
             }
           
         } catch (error) {
-          console.error(error);
-          return res.status(500).send({ error: 'Internal Server Error' });
+            console.error(`Error en la autenticacion, error: ${error.code}`);
+            return res.status(500).json({message: 'Error', results: `Error en la autenticacion, error: ${error.code}` });
         }
     },
     setSession: async (req, res) => {      
