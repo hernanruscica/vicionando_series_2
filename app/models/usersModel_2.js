@@ -20,9 +20,8 @@ module.exports = {
         //conn.query(`SELECT * FROM users`, myFunction);
         const connection = await pool.getConnection();
         console.log("abierta la conexion con el pool de datos - getAll");
-        try {
-            //(name, email, roles_id, photos_id, real_name, birthday, palettes_id) 
-            const [rows, fields] = await connection.execute(`SELECT name, email, roles_id, photos_id, real_name, birthday, palettes_id FROM users;
+        try {            
+            const [rows, fields] = await connection.execute(`SELECT id, name, email, roles_id, photos_id, real_name, birthday, palettes_id FROM users;
             `);            
             //console.log(rows)
             return rows;
@@ -39,7 +38,7 @@ module.exports = {
         const connection = await pool.getConnection();        
         console.log("abierta la conexion con el pool de datos - getByField");
         try {
-            const [rows, fields] = await connection.execute(`SELECT name, email, roles_id, photos_id, real_name, birthday, palettes_id FROM users WHERE ${field} LIKE '%${value}%'`);            
+            const [rows, fields] = await connection.execute(`SELECT id, name, email, roles_id, photos_id, real_name, birthday, palettes_id FROM users WHERE ${field} LIKE '%${value}%'`);            
             return rows;
         }catch (error){
             //console.error(error);
@@ -71,7 +70,7 @@ module.exports = {
         const connection = await pool.getConnection();
         console.log("abierta la conexion con el pool de datos - getById");
         try {
-            const [rows, fields] = await connection.execute(`SELECT name, email, roles_id, photos_id, real_name, birthday, palettes_id FROM users WHERE id = '${id}'`);
+            const [rows, fields] = await connection.execute(`SELECT id, name, email, roles_id, photos_id, real_name, birthday, palettes_id FROM users WHERE id = '${id}'`);
             return rows;
         } catch (error){
             //console.error(error);

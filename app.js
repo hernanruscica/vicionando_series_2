@@ -6,6 +6,9 @@ const cookieSession = require("cookie-session");
 
 const app = express();
 
+// Configura CORS para permitir solicitudes desde cualquier origen (en desarrollo)
+app.use(cors());
+
 /*for the index, with some documentation*/
 app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'ejs');
